@@ -1,6 +1,11 @@
 # NeoPixelPlus
 The NeoPixel library plus some extras, for example a testing mode - so you can see how your LEDs would behave directly in the terminal, without any extra hardware.
 
+Want to support the development financially? Donations are always welcomed! 
+[Click here to donate on Liberapay](https://liberapay.com/marcoEDU)
+
+[<img src="http://img.shields.io/liberapay/receives/marcoEDU.svg?logo=liberapay">](https://liberapay.com/marcoEDU)
+
 ## Installation
 ```
 pip install neopixel_plus

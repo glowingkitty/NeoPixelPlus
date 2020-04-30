@@ -2,37 +2,44 @@ import math
 import random
 import time
 
-from colr import color
-
 
 class NeoPixel:
-    def __init__(self, pin=10, n=30, bpp=3, brightness=0.9, auto_write=True, pixel_order=None, test=False, animation_up_and_down=True, animation_direction='up'):
+    def __init__(self, pin_num=10, n=30, bpp=3, brightness=0.9, auto_write=True, pixel_order=None, test=False, animation_up_and_down=True, animation_direction='up'):
         self.strip_length = n
         self.time_passed = 0
         self.brightness = brightness
         self.test = test
+        self.pin_num = pin_num
         self.animation_up_and_down = animation_up_and_down
         self.animation_direction = animation_direction
         if self.test:
             self.leds = [[0, 0, 0] for x in range(self.strip_length)]
         else:
-            from neopixel import NeoPixel
+            from neopixel import NeoPixel as NeoPixelOriginal
             from machine import Pin
-            self.leds = NeoPixel(
-                pin=Pin(pin, Pin.OUT),
+            self.leds = NeoPixelOriginal(
+                pin=Pin(pin_num, Pin.OUT),
                 n=self.strip_length,
-                bpp=bpp,
-                brightness=self.brightness,
-                auto_write=auto_write,
-                pixel_order=pixel_order)
+                bpp=bpp)
 
     def write(self,wait_after_wait=1.0/36.0):
         if self.test:
+            from colr import color
             print(
                 ''.join(color('  ', back=(x[0], x[1], x[2])) for x in self.leds))
         else:
             self.leds.write()
         time.sleep(wait_after_wait)
+
+    def off(self):
+        for i in range(self.strip_length):
+            self.leds[i] = (0,0,0)
+        self.write()
+    
+    def on(self):
+        for i in range(self.strip_length):
+            self.leds[i] = (255,255,255)
+        self.write()
 
     def random_flashing(self):
         while True:
@@ -42,11 +49,61 @@ class NeoPixel:
                  random.randint(0, 255)) for x in range(self.strip_length)]
             self.write()
 
-    def rainbow_animation(self,loop=True):
+    def testing(self):
+        # testing the LEDs
+        if self.test:
+            print('Start simulating a test of a NeoPixel LED strip.')
+        else:
+            print('Start testing a NeoPixel LED strip')
+
+        print('pin: {}'.format(self.pin_num))
+        print('strip_length: {}'.format(self.strip_length))
+
+        time.sleep(2)
+
+        self.glowup_and_down(limit=30)
+        self.count_glowing()
+        self.rainbow_animation(limit=50)
+    
+
+
+    def count_glowing(self):
+        counter=0
+        while counter < self.strip_length:
+            print('This is LED No {}'.format(counter))
+            for i in range(self.strip_length):
+                if i!=counter:
+                    self.leds[i] = (0,0,0)
+                else:
+                    self.leds[i] = (255,255,255)
+
+            self.write()
+            time.sleep(0.5)
+            counter+=1
+
+
+    def glowup_and_down(self,limit=None):
+        counter = 0
+        while True:
+            for i in range(self.strip_length):
+                if self.leds[i] == (0,0,0):
+                    self.leds[i] = (255,0,0)
+                else:
+                    self.leds[i] = (0,0,0)
+            self.write()
+            
+            counter+=1
+            if limit and counter==limit:
+                break
+            time.sleep(0.1)
+
+
+    def rainbow_animation(self,limit=None):
         # turn LEDs rainbow
+        counter = 0
         while True:
             self.time_passed += 0.06
-            for i in range(len(self.leds)):
+            for i in range(self.strip_length):
                 color = self.rainbow_color(self.time_passed, i,
                                         self.brightness)
                 self.leds[i] = color
@@ -57,9 +114,9 @@ class NeoPixel:
             
             self.write()
             
-            if not loop:
+            counter+=1
+            if limit and counter==limit:
                 break
-
 
     def rainbow_color(self, t, i, brightness):
         a = (0.5, 0.5, 0.5)

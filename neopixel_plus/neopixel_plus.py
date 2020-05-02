@@ -12,12 +12,14 @@ class NeoPixel:
                  brightness=0.9,
                  test=False,
                  animation_up_and_down=True,
-                 animation_direction='up'):
+                 animation_direction='up'
+                 ):
         self.strip_length = n
         self.time_passed = 0
         self.brightness = brightness
         self.start_point = start_point
         self.lastlightup = 0
+        self.glow_direction = 'up'
         self.test = test
         self.pin_num = pin_num
         self.animation_up_and_down = animation_up_and_down

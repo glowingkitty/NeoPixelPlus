@@ -17,6 +17,7 @@ class NeoPixel:
         self.time_passed = 0
         self.brightness = brightness
         self.start_point = start_point
+        self.lastlightup = 0
         self.test = test
         self.pin_num = pin_num
         self.animation_up_and_down = animation_up_and_down

@@ -152,7 +152,11 @@ class NeoPixel:
         g = a[1] + b[1] * math.cos(6.28318 * (c[1] * k + d[1]))
         b = a[2] + b[2] * math.cos(6.28318 * (c[2] * k + d[2]))
 
-        return (int(255.0 * r * brightness), int(255.0 * g * brightness), int(255.0 * b * brightness))
+        r = int(255.0 * r * brightness)
+        g = int(255.0 * g * brightness)
+        b = int(255.0 * b * brightness)
+
+        return (r if r < 255 else 255, g if g < 255 else 255, b if b < 255 else 255)
 
     def change_brightness(self, brightness, direction):
         if direction == 'up':
@@ -166,3 +170,6 @@ class NeoPixel:
             direction = 'down'
 
         return brightness, direction
+
+
+s

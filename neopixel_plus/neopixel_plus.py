@@ -170,6 +170,3 @@ class NeoPixel:
             direction = 'down'
 
         return brightness, direction
-
-
-s

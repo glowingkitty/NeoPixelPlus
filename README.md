@@ -1,8 +1,11 @@
-# NeoPixelPlus
+![NeoPixelPlus](https://raw.githubusercontent.com/marcoEDU/NeoPixelPlus/master/images/headerimage.jpg "NeoPixelPlus")
+
 The NeoPixel library plus some extras, for example a testing mode - so you can see how your LEDs would behave directly in the terminal, without any extra hardware.
 
-Want to support the development financially? Donations are always welcomed! 
-<a href="https://liberapay.com/marcoEDU/donate"><img alt="Donate using Liberapay" src="https://liberapay.com/assets/widgets/donate.svg"></a>
+Want to support the development and stay updated?
+
+<a href="https://www.patreon.com/bePatron?u=24983231"><img alt="Become a Patreon" src="https://raw.githubusercontent.com/marcoEDU/NeoPixelPlus/master/images/patreon_button.svg"></a> <a href="https://liberapay.com/marcoEDU/donate"><img alt="Donate using Liberapay" src="https://liberapay.com/assets/widgets/donate.svg"></a>
+
 
 ## Installation
 ```

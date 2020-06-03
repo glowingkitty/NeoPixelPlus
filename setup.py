@@ -5,13 +5,13 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="neopixel_plus",  # Replace with your own username
-    version="0.3.7",
+    version="0.3.8",
     author="Marco",
     author_email=None,
     description="The NeoPixel library plus some extras, for example a testing mode - so you can see how your LEDs would behave directly in the terminal, without any extra hardware..",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/marcoEDU/NeoPixelPlus",
+    url="https://github.com/glowingkitty/NeoPixelPlus",
     packages=setuptools.find_packages(),
     classifiers=[
         "Programming Language :: Python :: 3",

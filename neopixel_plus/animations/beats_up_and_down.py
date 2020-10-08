@@ -31,6 +31,8 @@ class BeatsUpAndDown:
                       255 else 255, b if b < 255 else 255]
 
     def glow(self):
+        loops = 0
+
         # make sure leds are off
         self.led_strip.off()
 
@@ -72,3 +74,8 @@ class BeatsUpAndDown:
 
             if self.pause_ms:
                 time.sleep(self.pause_ms/1000)
+
+            loops += 1
+
+            if self.loop_limit and self.loop_limit == loops:
+                break

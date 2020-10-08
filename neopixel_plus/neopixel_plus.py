@@ -72,11 +72,12 @@ class NeoPixel:
             pause_ms=pause_ms
         ).glow()
 
-    def beats(self, r=None, g=None, b=None, brightness=1, loop_limit=None, duration_ms=200, pause_ms=300, direction='up'):
+    def beats(self, r=None, g=None, b=None, brightness=1, brightness_fixed=False, loop_limit=None, duration_ms=200, pause_ms=300, direction='up'):
         BeatsUpAndDown(
             led_strip=self,
             color=[r, g, b] if (r and g and b) else None,
             brightness=brightness,
+            brightness_fixed=brightness_fixed,
             loop_limit=loop_limit,
             duration_ms=duration_ms,
             pause_ms=pause_ms,

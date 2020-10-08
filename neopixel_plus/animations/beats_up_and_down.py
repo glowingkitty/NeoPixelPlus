@@ -3,11 +3,12 @@ import time
 
 
 class BeatsUpAndDown:
-    def __init__(self, led_strip, color=None, brightness=1, loop_limit=None, duration_ms=200, pause_ms=300, direction='up'):
+    def __init__(self, led_strip, color=None, brightness=1, brightness_fixed=False, loop_limit=None, duration_ms=200, pause_ms=300, direction='up'):
         self.led_strip = led_strip
         self.color = color if color else self.get_random_color()
         self.change_color_random = False if color else True
         self.brightness = brightness
+        self.brightness_fixed = brightness_fixed
         self.loop_limit = loop_limit
         self.duration_ms = duration_ms
         self.pause_ms = pause_ms

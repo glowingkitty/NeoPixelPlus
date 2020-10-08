@@ -1,0 +1,3 @@
+from neopixel_plus.animations.beats_up_and_down import BeatsUpAndDown
+from neopixel_plus.animations.moving_dot import MovingDot
+from neopixel_plus.animations.rainbow import RainbowAnimation

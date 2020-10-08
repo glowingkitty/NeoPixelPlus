@@ -2,8 +2,7 @@ import math
 import random
 import time
 
-from neopixel_plus.animations.beats_up_and_down import BeatsUpAndDown
-from neopixel_plus.animations.rainbow import RainbowAnimation
+from neopixel_plus.animations import *
 
 
 class NeoPixel:
@@ -63,7 +62,11 @@ class NeoPixel:
             self.leds[i] = (r, g, b)
         self.write()
 
-    def rainbow_animation(self, loop_limit=None, brightness=1, duration_ms=1000, pause_ms=None):
+    def rainbow_animation(self,
+                          loop_limit=None,
+                          brightness=1,
+                          duration_ms=1000,
+                          pause_ms=None):
         RainbowAnimation(
             led_strip=self,
             loop_limit=loop_limit,
@@ -72,7 +75,16 @@ class NeoPixel:
             pause_ms=pause_ms
         ).glow()
 
-    def beats(self, r=None, g=None, b=None, brightness=1, brightness_fixed=False, loop_limit=None, duration_ms=200, pause_ms=300, direction='up'):
+    def beats(self,
+              r=None,
+              g=None,
+              b=None,
+              brightness=1,
+              brightness_fixed=False,
+              loop_limit=None,
+              duration_ms=200,
+              pause_ms=300,
+              direction='up'):
         BeatsUpAndDown(
             led_strip=self,
             color=[r, g, b] if (r and g and b) else None,
@@ -81,5 +93,28 @@ class NeoPixel:
             loop_limit=loop_limit,
             duration_ms=duration_ms,
             pause_ms=pause_ms,
+            direction=direction
+        ).glow()
+
+    def moving_dot(self,
+                   r=None,
+                   g=None,
+                   b=None,
+                   brightness=1,
+                   brightness_fixed=False,
+                   loop_limit=None,
+                   duration_ms=200,
+                   pause_a_ms=0,
+                   pause_b_ms=300,
+                   direction='up'):
+        MovingDot(
+            led_strip=self,
+            color=[r, g, b] if (r and g and b) else None,
+            brightness=brightness,
+            brightness_fixed=brightness_fixed,
+            loop_limit=loop_limit,
+            duration_ms=duration_ms,
+            pause_a_ms=pause_a_ms,
+            pause_b_ms=pause_b_ms,
             direction=direction
         ).glow()

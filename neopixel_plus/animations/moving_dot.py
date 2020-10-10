@@ -1,4 +1,5 @@
 import random
+import time
 
 
 class MovingDot:
@@ -93,13 +94,15 @@ class MovingDot:
         self.led_strip.off()
 
         while True:
+            # TODO make sure duration is correct
             # create dot with tail
             self.create_dot()
 
             # move dot with tail and write
             self.move_dot()
 
-            # TODO once dot disappeared at the end: pause_a
+            # once dot disappeared at the end: pause_a
+            time.sleep(self.pause_a_ms/1000)
 
             # create new dot with tail and move in opposit direction
             self.change_direction()
@@ -107,7 +110,8 @@ class MovingDot:
             self.move_dot()
             self.change_direction()
 
-            # TODO once dot disappeared at the end: pause_b
+            # once dot disappeared at the end: pause_b
+            time.sleep(self.pause_b_ms/1000)
 
             # change color if color supposed to be random
             if self.change_color_random:

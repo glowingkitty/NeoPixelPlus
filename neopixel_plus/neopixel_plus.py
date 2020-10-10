@@ -12,11 +12,13 @@ class NeoPixel:
                  bpp=3,
                  start_point=0,
                  test=False,
+                 overwrite_line=True
                  ):
         self.strip_length = n
         self.start_point = start_point
         self.test = test
         self.pin_num = pin_num
+        self.overwrite_line = overwrite_line
         if self.test:
             self.leds = [[0, 0, 0] for x in range(self.strip_length)]
         else:
@@ -31,7 +33,7 @@ class NeoPixel:
         if self.test:
             from colr import color
             print(
-                ''.join(color('  ', back=(x[0], x[1], x[2])) for x in self.leds))
+                ''.join(color('  ', back=(x[0], x[1], x[2])) for x in self.leds), end='\r' if self.overwrite_line else '\n')
         else:
             self.leds.write()
         time.sleep(s_after_wait)

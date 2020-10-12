@@ -94,7 +94,7 @@ class MovingDot:
         self.led_strip.off()
 
         while True:
-            # TODO make sure duration is correct
+            # make sure duration is correct
             # create dot with tail
             self.create_dot()
 

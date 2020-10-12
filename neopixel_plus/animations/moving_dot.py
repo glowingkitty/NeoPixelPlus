@@ -16,6 +16,7 @@ class MovingDot:
                  num_random_colors=5):
         self.led_strip = led_strip
         self.loop_limit = loop_limit
+        self.loops = 0
         self.duration_ms = duration_ms
         self.pause_a_ms = pause_a_ms
         self.pause_b_ms = pause_b_ms
@@ -107,6 +108,10 @@ class MovingDot:
 
                 # change to next color
                 self.colors.next()
+
+                self.loops += 1
+                if self.loop_limit and self.loop_limit == self.loops:
+                    break
 
         except KeyboardInterrupt:
             import sys

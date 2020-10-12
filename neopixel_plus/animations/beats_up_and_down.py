@@ -18,6 +18,7 @@ class BeatsUpAndDown:
                  ):
         self.led_strip = led_strip
         self.loop_limit = loop_limit
+        self.loops = 0
         self.duration_ms = duration_ms
         self.pause_ms = pause_ms
         self.direction = direction
@@ -38,8 +39,6 @@ class BeatsUpAndDown:
     def glow(self):
         print('Beats up and down:')
         try:
-            loops = 0
-
             # make sure leds are off
             self.led_strip.off()
 
@@ -82,9 +81,8 @@ class BeatsUpAndDown:
                 if self.pause_ms:
                     time.sleep(self.pause_ms/1000)
 
-                loops += 1
-
-                if self.loop_limit and self.loop_limit == loops:
+                self.loops += 1
+                if self.loop_limit and self.loop_limit == self.loops:
                     break
         except KeyboardInterrupt:
             import sys

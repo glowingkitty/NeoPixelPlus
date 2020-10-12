@@ -78,9 +78,7 @@ class NeoPixel:
         ).glow()
 
     def beats(self,
-              r=None,
-              g=None,
-              b=None,
+              rgb_colors=None,
               brightness=1,
               brightness_fixed=False,
               loop_limit=None,
@@ -89,7 +87,7 @@ class NeoPixel:
               direction='up'):
         BeatsUpAndDown(
             led_strip=self,
-            color=[r, g, b] if (r and g and b) else None,
+            rgb_colors=rgb_colors,
             brightness=brightness,
             brightness_fixed=brightness_fixed,
             loop_limit=loop_limit,
@@ -99,9 +97,7 @@ class NeoPixel:
         ).glow()
 
     def moving_dot(self,
-                   r=None,
-                   g=None,
-                   b=None,
+                   rgb_colors=None,
                    brightness=1,
                    loop_limit=None,
                    duration_ms=200,
@@ -110,11 +106,26 @@ class NeoPixel:
                    direction='up'):
         MovingDot(
             led_strip=self,
-            color=[r, g, b] if (r and g and b) else None,
+            rgb_colors=rgb_colors,
             brightness=brightness,
             loop_limit=loop_limit,
             duration_ms=duration_ms,
             pause_a_ms=pause_a_ms,
             pause_b_ms=pause_b_ms,
             direction=direction
+        ).glow()
+
+    def light_up(self,
+                 rgb_colors=None,
+                 brightness=1,
+                 loop_limit=None,
+                 duration_ms=200,
+                 pause_ms=200):
+        LightUp(
+            led_strip=self,
+            rgb_colors=rgb_colors,
+            brightness=brightness,
+            loop_limit=loop_limit,
+            duration_ms=duration_ms,
+            pause_ms=pause_ms,
         ).glow()

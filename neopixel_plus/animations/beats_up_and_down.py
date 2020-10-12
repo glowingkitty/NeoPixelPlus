@@ -36,51 +36,57 @@ class BeatsUpAndDown:
             self.duration_ms/2/self.led_strip.addressable_strip_length)/1000
 
     def glow(self):
-        loops = 0
+        print('Beats up and down:')
+        try:
+            loops = 0
 
-        # make sure leds are off
-        self.led_strip.off()
+            # make sure leds are off
+            self.led_strip.off()
 
-        while True:
-            # update color if brightness different
-            if self.colors.brightness != 1 and self.colors.brightness_fixed:
-                self.colors.correct()
-
-            # color LEDs
-            for i in range(self.led_strip.addressable_strip_length):
-                # if brightness_fixed==False: set brightness depending on what led is glowing up
-                if self.colors.brightness_fixed == False:
-                    # led 1: 30% of self.brightness_max
-                    # led 2: 30% of max + (i * 70%/self.led_strip.strip_length)
-                    # last LED: 100% * self.brightness_max
-                    self.colors.brightness = round((0.3*self.colors.brightness_max) +
-                                                   ((i+1)*(0.7/self.led_strip.addressable_strip_length)), 2)
+            while True:
+                # update color if brightness different
+                if self.colors.brightness != 1 and self.colors.brightness_fixed:
                     self.colors.correct()
 
-                if self.direction == 'down':
-                    i = - (i+1)
+                # color LEDs
+                for i in range(self.led_strip.addressable_strip_length):
+                    # if brightness_fixed==False: set brightness depending on what led is glowing up
+                    if self.colors.brightness_fixed == False:
+                        # led 1: 30% of self.brightness_max
+                        # led 2: 30% of max + (i * 70%/self.led_strip.strip_length)
+                        # last LED: 100% * self.brightness_max
+                        self.colors.brightness = round((0.3*self.colors.brightness_max) +
+                                                       ((i+1)*(0.7/self.led_strip.addressable_strip_length)), 2)
+                        self.colors.correct()
 
-                i = self.led_strip.get_led(i)
-                self.led_strip.leds[i] = self.colors.selected
+                    if self.direction == 'down':
+                        i = - (i+1)
 
-                self.led_strip.write(s_after_wait=self.write_wait_time)
+                    i = self.led_strip.get_led(i, self.direction)
+                    self.led_strip.leds[i] = self.colors.selected
 
-            # then make them black
-            for i in range(self.led_strip.addressable_strip_length):
-                if self.direction == 'up':
-                    i = -(i+1)
-                i = self.led_strip.get_led(i)
-                self.led_strip.leds[i] = self.colors.black
+                    self.led_strip.write(s_after_wait=self.write_wait_time)
 
-                self.led_strip.write(s_after_wait=self.write_wait_time)
+                # then make them black
+                for i in range(self.led_strip.addressable_strip_length):
+                    if self.direction == 'up':
+                        i = -(i+1)
+                    i = self.led_strip.get_led(i, self.direction)
+                    self.led_strip.leds[i] = self.colors.black
 
-            # change to next color
-            self.colors.next()
+                    self.led_strip.write(s_after_wait=self.write_wait_time)
 
-            if self.pause_ms:
-                time.sleep(self.pause_ms/1000)
+                # change to next color
+                self.colors.next()
 
-            loops += 1
+                if self.pause_ms:
+                    time.sleep(self.pause_ms/1000)
 
-            if self.loop_limit and self.loop_limit == loops:
-                break
+                loops += 1
+
+                if self.loop_limit and self.loop_limit == loops:
+                    break
+        except KeyboardInterrupt:
+            import sys
+            print()
+            sys.exit(0)

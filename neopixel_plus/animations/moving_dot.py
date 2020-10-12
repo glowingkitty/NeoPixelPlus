@@ -80,28 +80,35 @@ class MovingDot:
                 break
 
     def glow(self):
-        # make sure leds are off
-        self.led_strip.off()
+        print('Moving dot:')
+        try:
+            # make sure leds are off
+            self.led_strip.off()
 
-        while True:
-            # make sure duration is correct
-            # create dot with tail
-            self.create_dot()
+            while True:
+                # make sure duration is correct
+                # create dot with tail
+                self.create_dot()
 
-            # move dot with tail and write
-            self.move_dot()
+                # move dot with tail and write
+                self.move_dot()
 
-            # once dot disappeared at the end: pause_a
-            time.sleep(self.pause_a_ms/1000)
+                # once dot disappeared at the end: pause_a
+                time.sleep(self.pause_a_ms/1000)
 
-            # create new dot with tail and move in opposit direction
-            self.change_direction()
-            self.create_dot()
-            self.move_dot()
-            self.change_direction()
+                # create new dot with tail and move in opposit direction
+                self.change_direction()
+                self.create_dot()
+                self.move_dot()
+                self.change_direction()
 
-            # once dot disappeared at the end: pause_b
-            time.sleep(self.pause_b_ms/1000)
+                # once dot disappeared at the end: pause_b
+                time.sleep(self.pause_b_ms/1000)
 
-            # change to next color
-            self.colors.next()
+                # change to next color
+                self.colors.next()
+
+        except KeyboardInterrupt:
+            import sys
+            print()
+            sys.exit(0)

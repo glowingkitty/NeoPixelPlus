@@ -53,39 +53,45 @@ class RainbowAnimation:
         return round((self.duration_ms/full_duration)*loops)
 
     def glow(self):
-        # if duration, need to adapt time_passed to make one full color loop (and then pause if pause set)
-        # turn LEDs rainbow
-        counter = 0
-        loops = 0
-        max_counter = self.get_max_counter()
-        while True:
+        print('Rainbow:')
+        try:
+            # if duration, need to adapt time_passed to make one full color loop (and then pause if pause set)
+            # turn LEDs rainbow
+            counter = 0
+            loops = 0
+            max_counter = self.get_max_counter()
+            while True:
 
-            self.set_brightness(counter, max_counter)
+                self.set_brightness(counter, max_counter)
 
-            # turn LEDs black (off) for duration of pause
-            if counter == max_counter:
-                if self.duration_ms and self.pause_ms:
-                    self.led_strip.off()
-                    time.sleep((self.pause_ms-10)/1000)
+                # turn LEDs black (off) for duration of pause
+                if counter == max_counter:
+                    if self.duration_ms and self.pause_ms:
+                        self.led_strip.off()
+                        time.sleep((self.pause_ms-10)/1000)
 
-                counter = 0
-                loops += 1
+                    counter = 0
+                    loops += 1
 
-                if self.loop_limit and self.loop_limit == loops:
-                    break
+                    if self.loop_limit and self.loop_limit == loops:
+                        break
 
-            else:
+                else:
 
-                self.set_time_passed_ms()
-                for i in range(self.led_strip.strip_length):
-                    i = self.led_strip.get_led(i)
-                    color = self.rainbow_color(self.time_passed_ms, i,
-                                               self.brightness)
-                    self.led_strip.leds[i] = color
+                    self.set_time_passed_ms()
+                    for i in range(self.led_strip.strip_length):
+                        i = self.led_strip.get_led(i)
+                        color = self.rainbow_color(self.time_passed_ms, i,
+                                                   self.brightness)
+                        self.led_strip.leds[i] = color
 
-                self.led_strip.write()
+                    self.led_strip.write()
 
-                counter += 1
+                    counter += 1
+        except KeyboardInterrupt:
+            import sys
+            print()
+            sys.exit(0)
 
     def rainbow_color(self, t, i, brightness):
         t = t/1000

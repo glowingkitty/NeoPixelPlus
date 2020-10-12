@@ -39,10 +39,12 @@ class NeoPixel:
             self.leds.write()
         time.sleep(s_after_wait)
 
-    def get_led(self, i):
+    def get_led(self, i, direction):
         i = i+self.start_point
         if i < 0:
             i = self.addressable_strip_length+i
+        if direction == 'down':
+            i += (self.strip_length-self.addressable_strip_length)
         return i
 
     def off(self):

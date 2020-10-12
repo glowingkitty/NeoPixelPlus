@@ -1,50 +1,66 @@
-import random
 import time
+
+from neopixel_plus.helper import Color
 
 
 class LightUp:
     def __init__(self,
                  led_strip,
-                 color=None,
+                 rgb_colors=None,
                  brightness=1,
-                 brightness_fixed=False,
                  loop_limit=None,
                  duration_ms=200,
                  pause_ms=200,
-                 direction='up'):
+                 num_random_colors=5):
         self.led_strip = led_strip
-        self.color = color if color else self.get_random_color()
-        self.base_color = self.color
-        self.change_color_random = False if color else True
-        self.brightness = brightness
-        self.brightness_max = brightness
-        self.brightness_fixed = brightness_fixed
         self.loop_limit = loop_limit
+        self.loops = 0
         self.duration_ms = duration_ms
-        self.pause_a_ms = pause_a_ms
-        self.pause_b_ms = pause_b_ms
-        self.direction = direction
-        self.selector = {
-            "up": [-1, -2, -3, -4, -5],
-            "down": [0, 1, 2, 3, 4]
-        }
+        self.pause_ms = pause_ms
+        self.colors = Color(
+            rgb_colors=rgb_colors,
+            brightness=brightness,
+            num_random_colors=num_random_colors
+        )
 
         self.write_wait_time = (
             self.duration_ms/2/self.led_strip.strip_length)/1000
-
-    def get_random_color(self):
-        return [random.randint(1, 255), random.randint(1, 255), random.randint(1, 255)]
-
-    def set_color_brightness(self):
-        r = int(self.base_color[0] * self.brightness)
-        g = int(self.base_color[1] * self.brightness)
-        b = int(self.base_color[2] * self.brightness)
-
-        self.color = [r if r < 255 else 255, g if g <
-                      255 else 255, b if b < 255 else 255]
 
     def glow(self):
         # make sure leds are off
         self.led_strip.off()
 
-        # while True:
+        while True:
+            # go over levels of brightness from 0 to 1 and
+            self.colors.brightness = 0
+            self.colors.correct()
+
+            # TODO calc wait time
+
+            # light up
+            while self.colors.brightness != 1.0:
+                for i in range(self.led_strip.strip_length):
+                    self.led_strip.leds[i] = self.colors.selected
+                self.led_strip.write(s_after_wait=self.write_wait_time)
+
+                self.colors.brightness = round(self.colors.brightness+0.1, 1)
+                self.colors.correct()
+
+            # light down
+            while self.colors.brightness != 0.0:
+                for i in range(self.led_strip.strip_length):
+                    self.led_strip.leds[i] = self.colors.selected
+                self.led_strip.write(s_after_wait=self.write_wait_time)
+
+                self.colors.brightness = round(self.colors.brightness-0.1, 1)
+                self.colors.correct()
+
+            # change to next color
+            self.colors.next()
+
+            if self.pause_ms:
+                time.sleep(self.pause_ms/1000)
+
+            self.loops += 1
+            if self.loop_limit and self.loop_limit == self.loops:
+                break

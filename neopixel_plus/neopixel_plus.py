@@ -39,11 +39,11 @@ class NeoPixel:
             self.leds.write()
         time.sleep(s_after_wait)
 
-    def get_led(self, i, direction):
+    def get_led(self, i, direction=None):
         i = i+self.start_point
         if i < 0:
             i = self.addressable_strip_length+i
-        if direction == 'down':
+        if direction and direction == 'down':
             i += (self.strip_length-self.addressable_strip_length)
         return i
 
@@ -88,7 +88,8 @@ class NeoPixel:
               loop_limit=None,
               duration_ms=200,
               pause_ms=300,
-              direction='up'):
+              direction='up',
+              num_random_colors=5):
         BeatsUpAndDown(
             led_strip=self,
             rgb_colors=rgb_colors,
@@ -98,7 +99,8 @@ class NeoPixel:
             loop_limit=loop_limit,
             duration_ms=duration_ms,
             pause_ms=pause_ms,
-            direction=direction
+            direction=direction,
+            num_random_colors=num_random_colors
         ).glow()
 
     def moving_dot(self,
@@ -108,7 +110,8 @@ class NeoPixel:
                    duration_ms=200,
                    pause_a_ms=0,
                    pause_b_ms=300,
-                   direction='up'):
+                   direction='up',
+                   num_random_colors=5):
         MovingDot(
             led_strip=self,
             rgb_colors=rgb_colors,
@@ -117,7 +120,8 @@ class NeoPixel:
             duration_ms=duration_ms,
             pause_a_ms=pause_a_ms,
             pause_b_ms=pause_b_ms,
-            direction=direction
+            direction=direction,
+            num_random_colors=num_random_colors
         ).glow()
 
     def light_up(self,
@@ -125,7 +129,8 @@ class NeoPixel:
                  brightness=1,
                  loop_limit=None,
                  duration_ms=200,
-                 pause_ms=200):
+                 pause_ms=200,
+                 num_random_colors=5):
         LightUp(
             led_strip=self,
             rgb_colors=rgb_colors,
@@ -133,4 +138,5 @@ class NeoPixel:
             loop_limit=loop_limit,
             duration_ms=duration_ms,
             pause_ms=pause_ms,
+            num_random_colors=num_random_colors
         ).glow()

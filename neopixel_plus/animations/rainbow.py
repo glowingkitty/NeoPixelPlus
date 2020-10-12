@@ -1,6 +1,8 @@
 import math
 import time
 
+# TODO add Color() and simplify code (create rainbow once, then move it)
+
 
 class RainbowAnimation:
     def __init__(self, led_strip, brightness=1, loop_limit=None, duration_ms=1000, pause_ms=None):

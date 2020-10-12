@@ -15,6 +15,7 @@ class NeoPixel:
                  overwrite_line=True
                  ):
         self.strip_length = n
+        self.addressable_strip_length = n
         self.start_point = start_point
         self.test = test
         self.pin_num = pin_num
@@ -41,7 +42,7 @@ class NeoPixel:
     def get_led(self, i):
         i = i+self.start_point
         if i < 0:
-            i = self.strip_length+i
+            i = self.addressable_strip_length+i
         return i
 
     def off(self):
@@ -81,6 +82,7 @@ class NeoPixel:
               rgb_colors=None,
               brightness=1,
               brightness_fixed=False,
+              max_height=1,
               loop_limit=None,
               duration_ms=200,
               pause_ms=300,
@@ -90,6 +92,7 @@ class NeoPixel:
             rgb_colors=rgb_colors,
             brightness=brightness,
             brightness_fixed=brightness_fixed,
+            max_height=max_height,
             loop_limit=loop_limit,
             duration_ms=duration_ms,
             pause_ms=pause_ms,

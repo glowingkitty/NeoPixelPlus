@@ -13,6 +13,7 @@ class BeatsUpAndDown:
                  rgb_colors=None,
                  brightness=1,
                  brightness_fixed=False,
+                 max_height=1,
                  num_random_colors=5
                  ):
         self.led_strip = led_strip
@@ -20,6 +21,9 @@ class BeatsUpAndDown:
         self.duration_ms = duration_ms
         self.pause_ms = pause_ms
         self.direction = direction
+        self.max_height = max_height
+        self.led_strip.addressable_strip_length = round(
+            self.led_strip.strip_length*self.max_height)
 
         self.colors = Color(
             rgb_colors=rgb_colors,
@@ -29,7 +33,7 @@ class BeatsUpAndDown:
         )
 
         self.write_wait_time = (
-            self.duration_ms/2/self.led_strip.strip_length)/1000
+            self.duration_ms/2/self.led_strip.addressable_strip_length)/1000
 
     def glow(self):
         loops = 0
@@ -43,25 +47,26 @@ class BeatsUpAndDown:
                 self.colors.correct()
 
             # color LEDs
-            for i in range(self.led_strip.strip_length):
+            for i in range(self.led_strip.addressable_strip_length):
                 # if brightness_fixed==False: set brightness depending on what led is glowing up
                 if self.colors.brightness_fixed == False:
                     # led 1: 30% of self.brightness_max
                     # led 2: 30% of max + (i * 70%/self.led_strip.strip_length)
                     # last LED: 100% * self.brightness_max
                     self.colors.brightness = round((0.3*self.colors.brightness_max) +
-                                                   ((i+1)*(0.7/self.led_strip.strip_length)), 2)
+                                                   ((i+1)*(0.7/self.led_strip.addressable_strip_length)), 2)
                     self.colors.correct()
 
                 if self.direction == 'down':
-                    i = -(i+1)
+                    i = - (i+1)
+
                 i = self.led_strip.get_led(i)
                 self.led_strip.leds[i] = self.colors.selected
 
                 self.led_strip.write(s_after_wait=self.write_wait_time)
 
             # then make them black
-            for i in range(self.led_strip.strip_length):
+            for i in range(self.led_strip.addressable_strip_length):
                 if self.direction == 'up':
                     i = -(i+1)
                 i = self.led_strip.get_led(i)

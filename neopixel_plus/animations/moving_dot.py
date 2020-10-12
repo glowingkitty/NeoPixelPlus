@@ -7,7 +7,6 @@ class MovingDot:
                  led_strip,
                  color=None,
                  brightness=1,
-                 brightness_fixed=False,
                  loop_limit=None,
                  duration_ms=200,
                  pause_a_ms=0,
@@ -19,7 +18,6 @@ class MovingDot:
         self.change_color_random = False if color else True
         self.brightness = brightness
         self.brightness_max = brightness
-        self.brightness_fixed = brightness_fixed
         self.loop_limit = loop_limit
         self.duration_ms = duration_ms
         self.pause_a_ms = pause_a_ms

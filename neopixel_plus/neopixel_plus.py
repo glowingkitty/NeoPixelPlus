@@ -170,3 +170,22 @@ class NeoPixel:
             num_random_colors=num_random_colors,
             sections=sections
         ).glow()
+
+    def transition(self,
+                   rgb_colors=None,
+                   brightness=1,
+                   loop_limit=None,
+                   duration_ms=200,
+                   pause_ms=200,
+                   num_random_colors=5,
+                   sections='all'):
+        Transition(
+            led_strip=self,
+            rgb_colors=rgb_colors,
+            brightness=brightness,
+            loop_limit=loop_limit,
+            duration_ms=duration_ms,
+            pause_ms=pause_ms,
+            num_random_colors=num_random_colors,
+            sections=sections
+        ).glow()

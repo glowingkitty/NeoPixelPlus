@@ -24,7 +24,7 @@ class LightUp:
         )
 
         self.write_wait_time = (
-            self.duration_ms/2/self.led_strip.strip_length)/1000
+            self.duration_ms/((round(self.colors.brightness_max, 1)/0.1)*2)/1000)
 
     def glow(self):
         # make sure leds are off
@@ -38,7 +38,7 @@ class LightUp:
             # TODO calc wait time
 
             # light up
-            while self.colors.brightness != 1.0:
+            while self.colors.brightness != round(self.colors.brightness_max, 1):
                 for i in range(self.led_strip.strip_length):
                     self.led_strip.leds[i] = self.colors.selected
                 self.led_strip.write(s_after_wait=self.write_wait_time)

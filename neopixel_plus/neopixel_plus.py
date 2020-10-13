@@ -11,13 +11,13 @@ class NeoPixel:
                  pin_num=10,
                  n=30,
                  bpp=3,
-                 start_point=0,
+                 start_led=0,
                  test=False,
                  overwrite_line=True
                  ):
         self.strip_length = n
         self.addressable_strip_length = n
-        self.start_point = start_point
+        self.start_led = start_led
         self.test = test
         self.pin_num = pin_num
         self.overwrite_line = overwrite_line
@@ -67,11 +67,11 @@ class NeoPixel:
             self.leds.write()
         time.sleep(s_after_wait)
 
-    def get_led(self, i, direction=None):
-        i = i+self.start_point
+    def get_led(self, i, start=None):
+        i = i+self.start_led
         if i < 0:
             i = self.addressable_strip_length+i
-        if direction and direction == 'down':
+        if start and start == 'end':
             i += (self.strip_length-self.addressable_strip_length)
         return i
 
@@ -116,7 +116,7 @@ class NeoPixel:
               loop_limit=None,
               duration_ms=200,
               pause_ms=300,
-              direction='up',
+              start='start',
               num_random_colors=5):
         BeatsUpAndDown(
             led_strip=self,
@@ -127,7 +127,7 @@ class NeoPixel:
             loop_limit=loop_limit,
             duration_ms=duration_ms,
             pause_ms=pause_ms,
-            direction=direction,
+            start=start,
             num_random_colors=num_random_colors
         ).glow()
 
@@ -138,7 +138,7 @@ class NeoPixel:
                    duration_ms=200,
                    pause_a_ms=0,
                    pause_b_ms=300,
-                   direction='up',
+                   start='start',
                    num_random_colors=5):
         MovingDot(
             led_strip=self,
@@ -148,7 +148,7 @@ class NeoPixel:
             duration_ms=duration_ms,
             pause_a_ms=pause_a_ms,
             pause_b_ms=pause_b_ms,
-            direction=direction,
+            start=start,
             num_random_colors=num_random_colors
         ).glow()
 

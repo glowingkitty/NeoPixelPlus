@@ -10,7 +10,7 @@ class MovingDot:
                  duration_ms=200,
                  pause_a_ms=0,
                  pause_b_ms=300,
-                 direction='up',
+                 start='start',
                  rgb_colors=None,
                  brightness=1,
                  num_random_colors=5):
@@ -20,10 +20,10 @@ class MovingDot:
         self.duration_ms = duration_ms
         self.pause_a_ms = pause_a_ms
         self.pause_b_ms = pause_b_ms
-        self.direction = direction
+        self.start = start
         self.selector = {
-            "up": [-1, -2, -3, -4, -5],
-            "down": [0, 1, 2, 3, 4]
+            "start": [-1, -2, -3, -4, -5],
+            "end": [0, 1, 2, 3, 4]
         }
 
         self.colors = Color(
@@ -39,7 +39,7 @@ class MovingDot:
         self.dot = [self.colors.black]*5
 
         counter = 0
-        for selected in self.selector[self.direction]:
+        for selected in self.selector[self.start]:
             self.colors.brightness = (
                 1-(counter*0.225)) * self.colors.brightness_max
             self.colors.correct()
@@ -47,15 +47,15 @@ class MovingDot:
             counter += 1
 
     def change_direction(self):
-        if self.direction == 'up':
-            self.direction = 'down'
+        if self.start == 'start':
+            self.start = 'end'
         else:
-            self.direction = 'up'
+            self.start = 'start'
 
     def move_dot(self):
         # move dot into view
-        for selected in self.selector[self.direction]:
-            if self.direction == 'up':
+        for selected in self.selector[self.start]:
+            if self.start == 'start':
                 self.led_strip.leds.insert(0, self.dot[selected])
                 self.led_strip.leds = self.led_strip.leds[:-1]
             else:
@@ -65,7 +65,7 @@ class MovingDot:
 
         # add black led to front and remove last led, to move dot
         while True:
-            if self.direction == 'up':
+            if self.start == 'start':
                 self.led_strip.leds.insert(0, self.colors.black)
                 self.led_strip.leds = self.led_strip.leds[:-1]
             else:
@@ -97,7 +97,7 @@ class MovingDot:
                 # once dot disappeared at the end: pause_a
                 time.sleep(self.pause_a_ms/1000)
 
-                # create new dot with tail and move in opposit direction
+                # create new dot with tail and move in opposit start
                 self.change_direction()
                 self.create_dot()
                 self.move_dot()

@@ -29,40 +29,49 @@ class LightUp:
             self.duration_ms/((round(self.colors.brightness_max, 1)/0.1)*2)/1000)
 
     def glow(self):
-        # make sure leds are off
-        self.led_strip.off()
+        print('Light up:')
+        try:
+            # make sure leds are off
+            self.led_strip.off()
 
-        while True:
-            # go over levels of brightness from 0 to 1 and
-            self.colors.brightness = 0
-            self.colors.correct()
-
-            self.selected_leds = self.led_strip.get_led_selectors(
-                self.sections)
-
-            # light up
-            while self.colors.brightness != round(self.colors.brightness_max, 1):
-                for i in self.selected_leds:
-                    self.led_strip.leds[i] = self.colors.selected
-                self.led_strip.write(s_after_wait=self.write_wait_time)
-
-                self.colors.brightness = round(self.colors.brightness+0.1, 1)
+            while True:
+                # go over levels of brightness from 0 to 1 and
+                self.colors.brightness = 0
                 self.colors.correct()
 
-            # light down
-            while self.colors.brightness != 0.0:
-                self.colors.brightness = round(self.colors.brightness-0.1, 1)
-                self.colors.correct()
-                for i in self.selected_leds:
-                    self.led_strip.leds[i] = self.colors.selected
-                self.led_strip.write(s_after_wait=self.write_wait_time)
+                self.selected_leds = self.led_strip.get_led_selectors(
+                    self.sections)
 
-            # change to next color
-            self.colors.next()
+                # light up
+                while self.colors.brightness != round(self.colors.brightness_max, 1):
+                    for i in self.selected_leds:
+                        self.led_strip.leds[i] = self.colors.selected
+                    self.led_strip.write(s_after_wait=self.write_wait_time)
 
-            if self.pause_ms:
-                time.sleep(self.pause_ms/1000)
+                    self.colors.brightness = round(
+                        self.colors.brightness+0.1, 1)
+                    self.colors.correct()
 
-            self.loops += 1
-            if self.loop_limit and self.loop_limit == self.loops:
-                break
+                # light down
+                while self.colors.brightness != 0.0:
+                    self.colors.brightness = round(
+                        self.colors.brightness-0.1, 1)
+                    self.colors.correct()
+                    for i in self.selected_leds:
+                        self.led_strip.leds[i] = self.colors.selected
+                    self.led_strip.write(s_after_wait=self.write_wait_time)
+
+                # change to next color
+                self.colors.next()
+
+                if self.pause_ms:
+                    time.sleep(self.pause_ms/1000)
+
+                self.loops += 1
+                if self.loop_limit and self.loop_limit == self.loops:
+                    break
+
+        except KeyboardInterrupt:
+            import sys
+            print()
+            sys.exit(0)

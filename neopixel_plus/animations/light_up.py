@@ -11,12 +11,14 @@ class LightUp:
                  loop_limit=None,
                  duration_ms=200,
                  pause_ms=200,
-                 num_random_colors=5):
+                 num_random_colors=5,
+                 mode='all'):
         self.led_strip = led_strip
         self.loop_limit = loop_limit
         self.loops = 0
         self.duration_ms = duration_ms
         self.pause_ms = pause_ms
+        self.mode = mode
         self.colors = Color(
             rgb_colors=rgb_colors,
             brightness=brightness,
@@ -35,9 +37,12 @@ class LightUp:
             self.colors.brightness = 0
             self.colors.correct()
 
+            self.selected_leds = self.led_strip.get_led_selectors(
+                random=True if self.mode == 'random' else False)
+
             # light up
             while self.colors.brightness != round(self.colors.brightness_max, 1):
-                for i in range(self.led_strip.strip_length):
+                for i in self.selected_leds:
                     self.led_strip.leds[i] = self.colors.selected
                 self.led_strip.write(s_after_wait=self.write_wait_time)
 
@@ -46,12 +51,11 @@ class LightUp:
 
             # light down
             while self.colors.brightness != 0.0:
-                for i in range(self.led_strip.strip_length):
-                    self.led_strip.leds[i] = self.colors.selected
-                self.led_strip.write(s_after_wait=self.write_wait_time)
-
                 self.colors.brightness = round(self.colors.brightness-0.1, 1)
                 self.colors.correct()
+                for i in self.selected_leds:
+                    self.led_strip.leds[i] = self.colors.selected
+                self.led_strip.write(s_after_wait=self.write_wait_time)
 
             # change to next color
             self.colors.next()

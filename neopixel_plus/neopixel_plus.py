@@ -1,6 +1,7 @@
 import math
 import random
 import time
+from random import randint
 
 from neopixel_plus.animations import *
 
@@ -20,6 +21,7 @@ class NeoPixel:
         self.test = test
         self.pin_num = pin_num
         self.overwrite_line = overwrite_line
+        self.sections = self.get_sections()
         if self.test:
             self.leds = [[0, 0, 0] for x in range(self.strip_length)]
         else:
@@ -29,6 +31,22 @@ class NeoPixel:
                 pin=Pin(pin_num, Pin.OUT),
                 n=self.strip_length,
                 bpp=bpp)
+
+    def get_sections(self):
+        sections_length = 15
+        sections = []
+        counter = 0
+        while counter < self.addressable_strip_length:
+            sections.append(
+                [x for x in range(counter, counter+sections_length)])
+            counter += sections_length
+        return sections
+
+    def get_led_selectors(self, random=False):
+        if not random:
+            return range(self.addressable_strip_length)
+        else:
+            return self.sections[randint(0, len(self.sections)-1)]
 
     def write(self, s_after_wait=1.0/36.0):
         if self.test:
@@ -130,7 +148,8 @@ class NeoPixel:
                  loop_limit=None,
                  duration_ms=200,
                  pause_ms=200,
-                 num_random_colors=5):
+                 num_random_colors=5,
+                 mode='all'):
         LightUp(
             led_strip=self,
             rgb_colors=rgb_colors,
@@ -138,5 +157,6 @@ class NeoPixel:
             loop_limit=loop_limit,
             duration_ms=duration_ms,
             pause_ms=pause_ms,
-            num_random_colors=num_random_colors
+            num_random_colors=num_random_colors,
+            mode=mode
         ).glow()

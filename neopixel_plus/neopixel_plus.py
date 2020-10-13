@@ -42,11 +42,21 @@ class NeoPixel:
             counter += sections_length
         return sections
 
-    def get_led_selectors(self, random=False):
-        if not random:
+    def get_led_selectors(self, sections='all'):
+        if type(sections) == str and sections == 'all':
             return range(self.addressable_strip_length)
         else:
-            return self.sections[randint(0, len(self.sections)-1)]
+            selected_leds = []
+
+            if sections == 'random':
+                selected_leds += self.sections[randint(0,
+                                                       len(self.sections)-1)]
+
+            else:
+                for entry in sections:
+                    selected_leds += self.sections[entry]
+
+            return selected_leds
 
     def write(self, s_after_wait=1.0/36.0):
         if self.test:
@@ -149,7 +159,7 @@ class NeoPixel:
                  duration_ms=200,
                  pause_ms=200,
                  num_random_colors=5,
-                 mode='all'):
+                 sections='all'):
         LightUp(
             led_strip=self,
             rgb_colors=rgb_colors,
@@ -158,5 +168,5 @@ class NeoPixel:
             duration_ms=duration_ms,
             pause_ms=pause_ms,
             num_random_colors=num_random_colors,
-            mode=mode
+            sections=sections
         ).glow()

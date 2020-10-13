@@ -12,13 +12,13 @@ class LightUp:
                  duration_ms=200,
                  pause_ms=200,
                  num_random_colors=5,
-                 mode='all'):
+                 sections='all'):
         self.led_strip = led_strip
         self.loop_limit = loop_limit
         self.loops = 0
         self.duration_ms = duration_ms
         self.pause_ms = pause_ms
-        self.mode = mode
+        self.sections = sections
         self.colors = Color(
             rgb_colors=rgb_colors,
             brightness=brightness,
@@ -38,7 +38,7 @@ class LightUp:
             self.colors.correct()
 
             self.selected_leds = self.led_strip.get_led_selectors(
-                random=True if self.mode == 'random' else False)
+                self.sections)
 
             # light up
             while self.colors.brightness != round(self.colors.brightness_max, 1):

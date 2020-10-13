@@ -35,8 +35,6 @@ class LightUp:
             self.colors.brightness = 0
             self.colors.correct()
 
-            # TODO calc wait time
-
             # light up
             while self.colors.brightness != round(self.colors.brightness_max, 1):
                 for i in range(self.led_strip.strip_length):

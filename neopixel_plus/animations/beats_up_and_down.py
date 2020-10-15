@@ -56,17 +56,24 @@ class BeatsUpAndDown:
                         # led 1: 30% of self.brightness_max
                         # led 2: 30% of max + (i * 70%/self.led_strip.strip_length)
                         # last LED: 100% * self.brightness_max
-                        self.colors.brightness = round((0.3*self.colors.brightness_max) +
-                                                       ((i+1)*(0.7/self.led_strip.addressable_strip_length)), 2)
+                        if self.start == 'start + end' or self.start == 'center':
+                            self.colors.brightness = round((0.3*self.colors.brightness_max) +
+                                                           ((i+1)*(0.7/(self.led_strip.addressable_strip_length/2))), 2)
+                        else:
+                            self.colors.brightness = round((0.3*self.colors.brightness_max) +
+                                                           ((i+1)*(0.7/self.led_strip.addressable_strip_length)), 2)
                         self.colors.correct()
 
-                    # TODO "start" option "start & end" and "center"
+                    # "start" option "start & end" and "center"
                     if self.start == 'end':
                         i = [-(i+1)]
                     elif self.start == 'start':
                         i = [i]
                     elif self.start == 'start + end':
                         i = [i, -(i+1)]
+                    elif self.start == 'center':
+                        i = [i+round(self.led_strip.addressable_strip_length/2), -
+                             (i+1)+round(self.led_strip.addressable_strip_length/2)]
 
                     for led in i:
                         led = self.led_strip.get_led(led, self.start)
@@ -81,14 +88,13 @@ class BeatsUpAndDown:
                     elif self.start == 'end':
                         i = [i]
                     elif self.start == 'start + end':
-                        i = [-(i+1), i]
+                        i = [-(i+1)+round(self.led_strip.addressable_strip_length/2),
+                             i+round(self.led_strip.addressable_strip_length/2)]
+                    elif self.start == 'center':
+                        i = [i, -(i+1)]
 
                     for led in i:
-                        if self.start == 'start + end':
-                            led = self.led_strip.get_led(led, shift_led=round(
-                                self.led_strip.addressable_strip_length/2))
-                        else:
-                            led = self.led_strip.get_led(led, self.start)
+                        led = self.led_strip.get_led(led, self.start)
                         self.led_strip.leds[led] = self.colors.black
 
                     self.led_strip.write(s_after_wait=self.write_wait_time)

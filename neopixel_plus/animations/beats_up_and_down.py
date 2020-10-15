@@ -38,6 +38,58 @@ class BeatsUpAndDown:
         self.selected_leds = range(self.led_strip.addressable_strip_length) if self.start == 'start' or self.start == 'end' else range(
             round(self.led_strip.addressable_strip_length/2))
 
+    def color_leds(self):
+        # color LEDs
+        for i in self.selected_leds:
+            # if brightness_fixed==False: set brightness depending on what led is glowing up
+            if self.colors.brightness_fixed == False:
+                # led 1: 30% of self.brightness_max
+                # led 2: 30% of max + (i * 70%/self.led_strip.strip_length)
+                # last LED: 100% * self.brightness_max
+                if self.start == 'start + end' or self.start == 'center':
+                    self.colors.brightness = round((0.3*self.colors.brightness_max) +
+                                                   ((i+1)*(0.7/(self.led_strip.addressable_strip_length/2))), 2)
+                else:
+                    self.colors.brightness = round((0.3*self.colors.brightness_max) +
+                                                   ((i+1)*(0.7/self.led_strip.addressable_strip_length)), 2)
+                self.colors.correct()
+
+            # "start" option "start & end" and "center"
+            if self.start == 'end':
+                i = [-(i+1)]
+            elif self.start == 'start':
+                i = [i]
+            elif self.start == 'start + end':
+                i = [i, -(i+1)]
+            elif self.start == 'center':
+                i = [i+round(self.led_strip.addressable_strip_length/2), -
+                     (i+1)+round(self.led_strip.addressable_strip_length/2)]
+
+            for led in i:
+                led = self.led_strip.get_led(led, self.start)
+                self.led_strip.leds[led] = self.colors.selected
+
+            self.led_strip.write(s_after_wait=self.write_wait_time)
+
+    def make_leds_black(self):
+        # then make them black
+        for i in self.selected_leds:
+            if self.start == 'start':
+                i = [-(i+1)]
+            elif self.start == 'end':
+                i = [i]
+            elif self.start == 'start + end':
+                i = [-(i+1)+round(self.led_strip.addressable_strip_length/2),
+                     i+round(self.led_strip.addressable_strip_length/2)]
+            elif self.start == 'center':
+                i = [i, -(i+1)]
+
+            for led in i:
+                led = self.led_strip.get_led(led, self.start)
+                self.led_strip.leds[led] = self.colors.black
+
+            self.led_strip.write(s_after_wait=self.write_wait_time)
+
     def glow(self):
         print('Beats up and down:')
         try:
@@ -49,55 +101,8 @@ class BeatsUpAndDown:
                 if self.colors.brightness != 1 and self.colors.brightness_fixed:
                     self.colors.correct()
 
-                # color LEDs
-                for i in self.selected_leds:
-                    # if brightness_fixed==False: set brightness depending on what led is glowing up
-                    if self.colors.brightness_fixed == False:
-                        # led 1: 30% of self.brightness_max
-                        # led 2: 30% of max + (i * 70%/self.led_strip.strip_length)
-                        # last LED: 100% * self.brightness_max
-                        if self.start == 'start + end' or self.start == 'center':
-                            self.colors.brightness = round((0.3*self.colors.brightness_max) +
-                                                           ((i+1)*(0.7/(self.led_strip.addressable_strip_length/2))), 2)
-                        else:
-                            self.colors.brightness = round((0.3*self.colors.brightness_max) +
-                                                           ((i+1)*(0.7/self.led_strip.addressable_strip_length)), 2)
-                        self.colors.correct()
-
-                    # "start" option "start & end" and "center"
-                    if self.start == 'end':
-                        i = [-(i+1)]
-                    elif self.start == 'start':
-                        i = [i]
-                    elif self.start == 'start + end':
-                        i = [i, -(i+1)]
-                    elif self.start == 'center':
-                        i = [i+round(self.led_strip.addressable_strip_length/2), -
-                             (i+1)+round(self.led_strip.addressable_strip_length/2)]
-
-                    for led in i:
-                        led = self.led_strip.get_led(led, self.start)
-                        self.led_strip.leds[led] = self.colors.selected
-
-                    self.led_strip.write(s_after_wait=self.write_wait_time)
-
-                # then make them black
-                for i in self.selected_leds:
-                    if self.start == 'start':
-                        i = [-(i+1)]
-                    elif self.start == 'end':
-                        i = [i]
-                    elif self.start == 'start + end':
-                        i = [-(i+1)+round(self.led_strip.addressable_strip_length/2),
-                             i+round(self.led_strip.addressable_strip_length/2)]
-                    elif self.start == 'center':
-                        i = [i, -(i+1)]
-
-                    for led in i:
-                        led = self.led_strip.get_led(led, self.start)
-                        self.led_strip.leds[led] = self.colors.black
-
-                    self.led_strip.write(s_after_wait=self.write_wait_time)
+                self.color_leds()
+                self.make_leds_black()
 
                 # change to next color
                 self.colors.next()

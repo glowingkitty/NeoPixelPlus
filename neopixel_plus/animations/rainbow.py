@@ -5,7 +5,12 @@ import time
 
 
 class RainbowAnimation:
-    def __init__(self, led_strip, brightness=1, loop_limit=None, duration_ms=1000, pause_ms=None):
+    def __init__(self,
+                 led_strip,
+                 brightness=1,
+                 loop_limit=None,
+                 duration_ms=1000,
+                 pause_ms=None):
         self.led_strip = led_strip
         self.brightness_max = brightness
         self.loop_limit = loop_limit

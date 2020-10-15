@@ -10,7 +10,6 @@ class NeoPixel:
     def __init__(self,
                  pin_num=10,
                  n=30,
-                 bpp=3,
                  start_led=0,
                  test=False,
                  overwrite_line=True
@@ -30,7 +29,7 @@ class NeoPixel:
             self.leds = NeoPixelOriginal(
                 pin=Pin(pin_num, Pin.OUT),
                 n=self.strip_length,
-                bpp=bpp)
+                bpp=3)
 
     def get_sections(self):
         sections_length = 15

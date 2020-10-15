@@ -23,8 +23,9 @@ class BeatsUpAndDown:
         self.pause_ms = pause_ms
         self.start = start
         self.max_height = max_height
-        self.led_strip.addressable_strip_length = round(
-            self.led_strip.strip_length*self.max_height)
+
+        self.write_wait_time = (
+            self.duration_ms/2/self.led_strip.addressable_strip_length)/1000
 
         self.colors = Color(
             rgb_colors=rgb_colors,
@@ -33,14 +34,25 @@ class BeatsUpAndDown:
             num_random_colors=num_random_colors
         )
 
-        self.write_wait_time = (
-            self.duration_ms/2/self.led_strip.addressable_strip_length)/1000
-        self.selected_leds = range(self.led_strip.addressable_strip_length) if self.start == 'start' or self.start == 'end' else range(
-            round(self.led_strip.addressable_strip_length/2))
+        if self.start == 'start' or self.start == 'end':
+            self.led_strip.addressable_strip_length = round(
+                self.led_strip.strip_length*self.max_height)
+            self.selected_leds = range(self.led_strip.addressable_strip_length)
+            self.selected_leds_counter_up = self.led_strip.addressable_strip_length
+            self.selected_leds_counter_down = round(self.led_strip.addressable_strip_length -
+                                                    self.selected_leds_counter_up)
+        else:
+            self.led_strip.addressable_strip_length = self.led_strip.strip_length
+            self.selected_leds = range(
+                round(self.led_strip.addressable_strip_length/2))
+            self.selected_leds_counter_up = round(self.max_height *
+                                                  round(self.led_strip.addressable_strip_length/2))
+            self.selected_leds_counter_down = round(round(
+                self.led_strip.addressable_strip_length/2)-self.selected_leds_counter_up)
 
     def color_leds(self):
         # color LEDs
-        for i in self.selected_leds:
+        for i in self.selected_leds[:self.selected_leds_counter_up]:
             # if brightness_fixed==False: set brightness depending on what led is glowing up
             if self.colors.brightness_fixed == False:
                 # led 1: 30% of self.brightness_max
@@ -48,7 +60,7 @@ class BeatsUpAndDown:
                 # last LED: 100% * self.brightness_max
                 if self.start == 'start + end' or self.start == 'center':
                     self.colors.brightness = round((0.3*self.colors.brightness_max) +
-                                                   ((i+1)*(0.7/(self.led_strip.addressable_strip_length/2))), 2)
+                                                   ((i+1)*(0.7/((self.led_strip.addressable_strip_length*self.max_height)/2))), 2)
                 else:
                     self.colors.brightness = round((0.3*self.colors.brightness_max) +
                                                    ((i+1)*(0.7/self.led_strip.addressable_strip_length)), 2)
@@ -73,7 +85,7 @@ class BeatsUpAndDown:
 
     def make_leds_black(self):
         # then make them black
-        for i in self.selected_leds:
+        for i in self.selected_leds[self.selected_leds_counter_down:]:
             if self.start == 'start':
                 i = [-(i+1)]
             elif self.start == 'end':

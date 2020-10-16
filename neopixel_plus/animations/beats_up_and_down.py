@@ -51,6 +51,9 @@ class BeatsUpAndDown:
                 self.led_strip.addressable_strip_length/2)-self.selected_leds_counter_up)
 
     def color_leds(self):
+        if self.led_strip.debug:
+            print('BeatsUpAndDown().color_leds()')
+
         # color LEDs
         for i in self.selected_leds[:self.selected_leds_counter_up]:
             # if brightness_fixed==False: set brightness depending on what led is glowing up
@@ -84,6 +87,9 @@ class BeatsUpAndDown:
             self.led_strip.write(s_after_wait=self.write_wait_time)
 
     def make_leds_black(self):
+        if self.led_strip.debug:
+            print('BeatsUpAndDown().make_leds_black()')
+
         # then make them black
         for i in self.selected_leds[self.selected_leds_counter_down:]:
             if self.start == 'start':
@@ -103,6 +109,9 @@ class BeatsUpAndDown:
             self.led_strip.write(s_after_wait=self.write_wait_time)
 
     def glow(self):
+        if self.led_strip.debug:
+            print('BeatsUpAndDown().glow()')
+
         print('Beats up and down:')
         try:
             # make sure leds are off

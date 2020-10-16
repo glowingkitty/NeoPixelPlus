@@ -20,6 +20,9 @@ class RainbowAnimation:
         self.time_passed_ms = 0
 
     def set_time_passed_ms(self):
+        if self.led_strip.debug:
+            print('RainbowAnimation().set_time_passed_ms()')
+
         # if duration 1000 ms = 17 loops * 60ms
         # if duration 500 ms = 8.5 loops 120ms
         # if duration 250 ms = 4.25 loops 240ms
@@ -32,6 +35,10 @@ class RainbowAnimation:
         self.time_passed_ms += added_ms
 
     def set_brightness(self, counter, max_counter):
+        if self.led_strip.debug:
+            print('RainbowAnimation().set_brightness(counter={},max_counter={})'.format(
+                counter, max_counter))
+
         # if counter == 1 => brightness 0.3
         # if counter == 2 => brightness 0.6
         # if counter == max_counter-1 => brightness 0.3
@@ -48,6 +55,9 @@ class RainbowAnimation:
             self.brightness = 1*self.brightness_max
 
     def get_max_counter(self):
+        if self.led_strip.debug:
+            print('RainbowAnimation().get_max_counter()')
+
         # if duration 1000 ms = 17 loops * 60ms
         # if duration 500 ms = 8.5 loops 120ms
         # if duration 250 ms = 4.25 loops 240ms
@@ -58,6 +68,9 @@ class RainbowAnimation:
         return round((self.duration_ms/full_duration)*loops)
 
     def glow(self):
+        if self.led_strip.debug:
+            print('RainbowAnimation().glow()')
+
         print('Rainbow:')
         try:
             # if duration, need to adapt time_passed to make one full color loop (and then pause if pause set)
@@ -100,6 +113,10 @@ class RainbowAnimation:
             sys.exit(0)
 
     def rainbow_color(self, t, i, brightness):
+        if self.led_strip.debug:
+            print('RainbowAnimation().rainbow_color(t={},i={},brightness={})'.format(
+                t, i, brightness))
+
         t = t/1000
         a = (0.5, 0.5, 0.5)
         b = (0.5, 0.5, 0.5)

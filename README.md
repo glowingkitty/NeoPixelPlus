@@ -23,6 +23,8 @@ Want to support the development and stay updated?
 
     - [overwrite_line](#neopixel_overwrite_line)
 
+    - [debug](#neopixel_debug)
+
 
 4. [NeoPixel functions (animations)](#neopixel-functions-animations)
 
@@ -204,6 +206,14 @@ type = bool
 default = True
 purpose = 'If False: show all steps of LED animation in terminal ouput. Useful for debugging.'
 ```
+
+##### NeoPixel(debug=...)
+```python 
+type = bool
+default = False
+purpose = 'If True: prints all function calls and their input variables, for better debugging.'
+```
+
 
 ## NeoPixel functions (animations)
 

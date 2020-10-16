@@ -12,8 +12,10 @@ class NeoPixel:
                  n=30,
                  start_led=0,
                  test=False,
-                 overwrite_line=True
+                 overwrite_line=True,
+                 debug=False
                  ):
+        self.debug = debug
         self.strip_length = n
         self.addressable_strip_length = n
         self.start_led = start_led
@@ -21,6 +23,7 @@ class NeoPixel:
         self.pin_num = pin_num
         self.overwrite_line = overwrite_line
         self.sections = self.get_sections()
+
         if self.test:
             self.leds = [[0, 0, 0] for x in range(self.strip_length)]
         else:
@@ -32,6 +35,9 @@ class NeoPixel:
                 bpp=3)
 
     def get_sections(self):
+        if self.debug:
+            print('NeoPixel().get_sections()')
+
         sections_length = 15
         sections = []
         counter = 0
@@ -42,6 +48,9 @@ class NeoPixel:
         return sections
 
     def get_led_selectors(self, sections='all'):
+        if self.debug:
+            print('NeoPixel().get_led_selectors(sections={})'.format(sections))
+
         if type(sections) == str:
             if sections == 'all':
                 return range(self.addressable_strip_length)
@@ -55,15 +64,40 @@ class NeoPixel:
             return selected_leds
 
     def write(self, s_after_wait=1.0/36.0):
+        if self.debug:
+            print('NeoPixel().write(s_after_wait={})'.format(s_after_wait))
+
         if self.test:
             from colr import color
             print(
-                ''.join(color('  ', back=(x[0], x[1], x[2])) for x in self.leds), end='\r' if self.overwrite_line else '\n')
+                ''.join(color('  ', back=(x[0], x[1], x[2])) for x in self.leds), end='\r' if self.overwrite_line and not self.debug else '\n')
         else:
             self.leds.write()
         time.sleep(s_after_wait)
 
+    def insert_led(self, position=0, rgb=[0, 0, 0]):
+        if self.debug:
+            print('NeoPixel().insert_led(position={},rgb={})'.format(position, rgb))
+        # save state of all leds as list, insert LED at position, then write LEDs
+        leds = [[x[0], x[1], x[2]] for x in self.leds]
+        leds.insert(position, rgb)
+        leds = leds[:-1]
+        for i in range(len(leds)):
+            self.leds[i] = leds[i]
+
+    def append_led(self, rgb=[0, 0, 0]):
+        if self.debug:
+            print('NeoPixel().append_led(rgb={})'.format(rgb))
+        # save state of all leds as list, append LED at the end, then write LEDs
+        leds = [[x[0], x[1], x[2]] for x in self.leds]
+        leds.append(rgb)
+        leds = leds[1:]
+        for i in range(len(leds)):
+            self.leds[i] = leds[i]
+
     def get_led(self, i, start=None):
+        if self.debug:
+            print('NeoPixel().get_led(i={},start={}'.format(i, start))
         i = i+self.start_led
         if i < 0:
             i += self.addressable_strip_length
@@ -73,11 +107,15 @@ class NeoPixel:
         return i
 
     def off(self):
+        if self.debug:
+            print('NeoPixel().off()')
         for i in range(self.strip_length):
             self.leds[i] = (0, 0, 0)
         self.write()
 
     def on(self, num=None):
+        if self.debug:
+            print('NeoPixel().on(num={})'.format(num))
         if type(num) == int:
             num = self.get_led(num)
             self.leds[num] = (255, 255, 255)
@@ -87,6 +125,8 @@ class NeoPixel:
         self.write()
 
     def color(self, r, g, b):
+        if self.debug:
+            print('NeoPixel().color(r={},g={},b={})'.format(r, g, b))
         for i in range(self.strip_length):
             i = self.get_led(i)
             self.leds[i] = (r, g, b)

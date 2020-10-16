@@ -32,6 +32,9 @@ class Transition:
             self.sections)
 
     def glow(self):
+        if self.led_strip.debug:
+            print('Transition().glow()')
+
         print('Transition:')
         try:
             # make sure leds are off

@@ -92,6 +92,27 @@ class NeoPixel:
             self.leds[i] = (r, g, b)
         self.write()
 
+    def test_animations(self):
+        # run all the animations for testing
+        print('Start testing animations...')
+        while True:
+            self.rainbow_animation(loop_limit=2)
+
+            self.beats(loop_limit=3)
+            self.beats(loop_limit=3, start='end')
+            self.beats(loop_limit=3, start='start + end')
+            self.beats(loop_limit=3, start='center', brightness=0.5)
+
+            self.moving_dot(loop_limit=3)
+            self.moving_dot(loop_limit=3, start='end', brightness=0.5)
+
+            self.light_up(loop_limit=3)
+            self.light_up(loop_limit=3, sections='random')
+            self.light_up(loop_limit=3, sections=[0])
+
+            self.transition(loop_limit=3)
+            self.transition(loop_limit=3, sections=[0])
+
     def rainbow_animation(self,
                           loop_limit=None,
                           brightness=1,

@@ -111,6 +111,7 @@ class MovingDot:
 
                 self.loops += 1
                 if self.loop_limit and self.loop_limit == self.loops:
+                    print()
                     break
 
         except KeyboardInterrupt:

@@ -138,6 +138,8 @@ Want to support the development and stay updated?
 
     - [b](#color_b)
 
+    5.8 [test_animations()](#test_animations)
+
 
 ## Installation
 Make sure Python 3 is installed. 
@@ -574,3 +576,7 @@ purpose = 'Define the G (green) value of the color.'
 type = int or float
 purpose = 'Define the B (blue) value of the color.'
 ```
+
+### test_animations()
+![test_animations](https://raw.githubusercontent.com/marcoEDU/NeoPixelPlus/master/images/test_animations.png "test_animations")
+Run all the different LED animations from NeoPixel+.

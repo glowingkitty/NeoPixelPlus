@@ -79,6 +79,7 @@ class RainbowAnimation:
                     loops += 1
 
                     if self.loop_limit and self.loop_limit == loops:
+                        print()
                         break
 
                 else:

@@ -42,18 +42,15 @@ class NeoPixel:
         return sections
 
     def get_led_selectors(self, sections='all'):
-        if type(sections) == str and sections == 'all':
-            return range(self.addressable_strip_length)
+        if type(sections) == str:
+            if sections == 'all':
+                return range(self.addressable_strip_length)
+            elif sections == 'random':
+                return self.sections[randint(0, len(self.sections)-1)]
         else:
             selected_leds = []
-
-            if sections == 'random':
-                selected_leds += self.sections[randint(0,
-                                                       len(self.sections)-1)]
-
-            else:
-                for entry in sections:
-                    selected_leds += self.sections[entry]
+            for entry in sections:
+                selected_leds += self.sections[entry]
 
             return selected_leds
 

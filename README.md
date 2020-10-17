@@ -25,6 +25,8 @@ Want to support the development and stay updated?
 
     - [debug](#neopixel_debug)
 
+    - [target](#neopixel_target)
+
 
 4. [NeoPixel functions (animations)](#neopixel-functions-animations)
 
@@ -142,6 +144,8 @@ Want to support the development and stay updated?
 
     5.8 [test_animations()](#test_animations)
 
+    5.9 [get_pin()](#get_pin)
+
 
 ## Installation
 Make sure Python 3 is installed. 
@@ -212,6 +216,14 @@ purpose = 'If False: show all steps of LED animation in terminal ouput. Useful f
 type = bool
 default = False
 purpose = 'If True: prints all function calls and their input variables, for better debugging.'
+```
+
+##### NeoPixel(target=...)
+```python 
+type = str
+default = 'micropython'
+options = ['micropython','adafruit']
+purpose = 'Defines what kind of NeoPixel library is targeted: the default micropython NeoPixel or adafruits NeoPixel for Raspberry Pi.'
 ```
 
 
@@ -590,3 +602,6 @@ purpose = 'Define the B (blue) value of the color.'
 ### test_animations()
 ![test_animations](https://raw.githubusercontent.com/marcoEDU/NeoPixelPlus/master/images/test_animations.png "test_animations")
 Run all the different LED animations from NeoPixel+.
+
+### get_pin()
+Returns the class object for the GPIO pin (micropython's and adafruit's NeoPixel use different classes for that).

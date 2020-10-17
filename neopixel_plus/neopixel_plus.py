@@ -8,31 +8,75 @@ from neopixel_plus.animations import *
 
 class NeoPixel:
     def __init__(self,
-                 pin_num=10,
+                 pin_num=None,
                  n=30,
                  start_led=0,
                  test=False,
                  overwrite_line=True,
-                 debug=False
+                 debug=False,
+                 target='micropython'  # or 'adafruit'
                  ):
         self.debug = debug
+        self.target = target
         self.strip_length = n
         self.addressable_strip_length = n
         self.start_led = start_led
         self.test = test
-        self.pin_num = pin_num
+        self.pin_num = pin_num if pin_num else 10 if self.target == 'micropython' else 18 if self.target == 'adafruit' else None
         self.overwrite_line = overwrite_line
         self.sections = self.get_sections()
 
         if self.test:
             self.leds = [[0, 0, 0] for x in range(self.strip_length)]
         else:
-            from machine import Pin
             from neopixel import NeoPixel as NeoPixelOriginal
-            self.leds = NeoPixelOriginal(
-                pin=Pin(pin_num, Pin.OUT),
-                n=self.strip_length,
-                bpp=3)
+            if self.target == 'micropython':
+                self.leds = NeoPixelOriginal(
+                    self.get_pin(),
+                    self.strip_length)
+            elif self.target == 'adafruit':
+                self.leds = NeoPixelOriginal(
+                    self.get_pin(),
+                    self.strip_length,
+                    auto_write=False)
+
+    def get_pin(self):
+        if self.target == 'micropython':
+            from machine import Pin
+            return Pin(self.pin_num, Pin.OUT)
+
+        elif self.target == 'adafruit':
+            import board
+            if self.pin_num == 18:
+                return board.D18
+            elif self.pin_num == 23:
+                return board.D23
+            elif self.pin_num == 24:
+                return board.D24
+            elif self.pin_num == 24:
+                return board.D24
+            elif self.pin_num == 25:
+                return board.D25
+            elif self.pin_num == 12:
+                return board.D12
+            elif self.pin_num == 16:
+                return board.D16
+            elif self.pin_num == 4:
+                return board.D4
+            elif self.pin_num == 17:
+                return board.D17
+            elif self.pin_num == 27:
+                return board.D27
+            elif self.pin_num == 22:
+                return board.D22
+            elif self.pin_num == 5:
+                return board.D5
+            elif self.pin_num == 6:
+                return board.D6
+            elif self.pin_num == 13:
+                return board.D13
+            elif self.pin_num == 26:
+                return board.D26
 
     def get_sections(self):
         if self.debug:
@@ -72,7 +116,10 @@ class NeoPixel:
             print(
                 ''.join(color('  ', back=(x[0], x[1], x[2])) for x in self.leds), end='\r' if self.overwrite_line and not self.debug else '\n')
         else:
-            self.leds.write()
+            if self.target == 'micropython':
+                self.leds.write()
+            elif self.target == 'adafruit':
+                self.leds.show()
         time.sleep(s_after_wait)
 
     def insert_led(self, position=0, rgb=[0, 0, 0]):

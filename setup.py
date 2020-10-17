@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="neopixel_plus",  # Replace with your own username
-    version="1.0.2",
+    version="1.1.0",
     author="Marco",
     author_email=None,
     description="The NeoPixel library plus animations and terminal testing mode - so you can see how your LEDs would behave directly in the terminal, without any microcontroller.",

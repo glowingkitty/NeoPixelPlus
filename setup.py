@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="neopixel_plus",  # Replace with your own username
-    version="1.1.0",
+    version="1.1.1",
     author="Marco",
     author_email=None,
     description="The NeoPixel library plus animations and terminal testing mode - so you can see how your LEDs would behave directly in the terminal, without any microcontroller.",
@@ -20,6 +20,8 @@ setuptools.setup(
     ],
     python_requires='>=3.6',
     install_requires=[
-        'colr'
+        'colr',
+        'rpi_ws281x',
+        'adafruit-circuitpython-neopixel'
     ]
 )

@@ -157,11 +157,24 @@ pip install neopixel_plus
 
 ## Example
 
+IMPORTANT: 
+
+To use NeoPixel+ on Raspberry Pi (using target='adafruit'), you need to make sure you execute python with sudo.
+For example:
+```
+sudo python
+```
+or from a virtual environment
+```
+sudo ./pyvenv/bin/python
+```
+
+
 ```
 from neopixel_plus import NeoPixel
 
 # Example 1 - Changing the color of a physical LED
-pixel = NeoPixel(pin=5, n=30, bpp=3)
+pixel = NeoPixel(pin=5, n=30)
 pixel.leds[0] = (219,100,222)
 pixel.write()
 
@@ -169,7 +182,7 @@ pixel.write()
 NeoPixel(test=True).rainbow_animation()
 
 # Example 3 - Playing a rainbow animation on physical LEDs
-NeoPixel(pin=5, n=30, bpp=3).rainbow_animation()
+NeoPixel(pin=5, n=30).rainbow_animation()
 
 ```
 ## NeoPixel class

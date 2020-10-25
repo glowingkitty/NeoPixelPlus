@@ -40,6 +40,8 @@ Want to support the development and stay updated?
 
     - [pause_ms](#rainbow_animation_pause_ms)
 
+    - [customization_json](#rainbow_animation_customization_json)
+
     4.2 [beats()](#beats)
 
     - [brightness](#beats_brightness)
@@ -60,6 +62,8 @@ Want to support the development and stay updated?
 
     - [max_height](#beats_num_max_height)
 
+    - [customization_json](#beats_customization_json)
+
     4.3 [moving_dot()](#moving_dot)
 
     - [brightness](#moving_dot_brightness)
@@ -78,6 +82,8 @@ Want to support the development and stay updated?
 
     - [num_random_colors](#moving_dot_num_random_colors)
 
+    - [customization_json](#moving_dot_customization_json)
+
     4.4 [light_up()](#light_up)
 
     - [brightness](#light_up_brightness)
@@ -94,6 +100,8 @@ Want to support the development and stay updated?
 
     - [num_random_colors](#light_up_num_random_colors)
 
+    - [customization_json](#light_up_customization_json)
+
     4.5 [transition()](#transition)
 
     - [brightness](#transition_brightness)
@@ -109,6 +117,8 @@ Want to support the development and stay updated?
     - [rgb_colors](#transition_rgb_colors)
 
     - [num_random_colors](#transition_num_random_colors)
+
+    - [customization_json](#transition_customization_json)
 
 5. [NeoPixel functions (other)](#neopixel-functions-other)
 
@@ -275,6 +285,13 @@ default = None
 purpose = 'If set, defines if a pause should be made after animation and how long that lasts.'
 ```
 
+##### rainbow_animation(customization_json=...)
+```python 
+type = dict
+default = {}
+purpose = 'If you like, you can also give the customization options via a dict as an imput. Example: {"duration_ms":2000}'
+```
+
 
 ### beats()
 ![beats](https://raw.githubusercontent.com/marcoEDU/NeoPixelPlus/master/images/beats.png "beats")
@@ -345,6 +362,14 @@ default = 1.0
 purpose = 'Defines how high the beat animation can go. 1.0 == 100% of all LEDs, 0 == no LEDs.'
 ```
 
+##### beats(customization_json=...)
+```python 
+type = dict
+default = {}
+purpose = 'If you like, you can also give the customization options via a dict as an imput. Example: {"duration_ms":2000}'
+```
+
+
 ### moving_dot()
 ![moving_dot](https://raw.githubusercontent.com/marcoEDU/NeoPixelPlus/master/images/moving_dot.png "moving_dot")
 
@@ -408,6 +433,13 @@ default = 5
 purpose = 'Defines how many random RGB colors the animation will switch between, if no RGB colors are manually defined'
 ```
 
+##### moving_dot(customization_json=...)
+```python 
+type = dict
+default = {}
+purpose = 'If you like, you can also give the customization options via a dict as an imput. Example: {"duration_ms":2000}'
+```
+
 ### light_up()
 ![light_up](https://raw.githubusercontent.com/marcoEDU/NeoPixelPlus/master/images/light_up.png "light_up")
 
@@ -464,6 +496,13 @@ default = 5
 purpose = 'Defines how many random RGB colors the animation will switch between, if no RGB colors are manually defined'
 ```
 
+##### light_up(customization_json=...)
+```python 
+type = dict
+default = {}
+purpose = 'If you like, you can also give the customization options via a dict as an imput. Example: {"duration_ms":2000}'
+```
+
 ### transition()
 ![transition](https://raw.githubusercontent.com/marcoEDU/NeoPixelPlus/master/images/transition.png "transition")
 
@@ -517,6 +556,13 @@ purpose = 'Define what RGB colors the animation will use'
 type = int
 default = 5
 purpose = 'Defines how many random RGB colors the animation will switch between, if no RGB colors are manually defined'
+```
+
+##### transition(customization_json=...)
+```python 
+type = dict
+default = {}
+purpose = 'If you like, you can also give the customization options via a dict as an imput. Example: {"duration_ms":2000}'
 ```
 
 ## NeoPixel functions (other)

@@ -1,6 +1,6 @@
 import time
 
-from neopixel_plus.helper import Color
+from neopixel_plus.helper import Color, RunningAnimation
 
 
 class Transition:
@@ -41,6 +41,10 @@ class Transition:
             self.led_strip.off()
 
             while True:
+                # check if animation should be stopped or not
+                if not RunningAnimation.check_animation_running():
+                    break
+
                 # add or substract difference between rgb values and update color - to make transition
 
                 steps_counter = 0

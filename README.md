@@ -146,11 +146,9 @@ Want to support the development and stay updated?
 
     5.7 [color()](#color)
 
-    - [r](#color_r)
+    - [rgb_color](#color_rgb_color)
 
-    - [g](#color_g)
-
-    - [b](#color_b)
+    - [customization_json](#color_customization_json)
 
     5.8 [test_animations()](#test_animations)
 
@@ -640,22 +638,17 @@ Turn on all LEDs in a specific RGB color.
 
 #### Input:
 
-##### color(r=...)
+##### color(rgb_color=...)
 ```python 
-type = int or float
-purpose = 'Define the R (red) value of the color.'
+type = list
+purpose = 'Define an [r,g,b] list with the red, green and blue values (from 0-255).'
 ```
 
-##### color(g=...)
+##### color(customization_json=...)
 ```python 
-type = int or float
-purpose = 'Define the G (green) value of the color.'
-```
-
-##### color(b=...)
-```python 
-type = int or float
-purpose = 'Define the B (blue) value of the color.'
+type = dict
+default = {}
+purpose = 'If you like, you can also give the customization options via a dict as an imput. Example: {"rgb_color":[100,200,200]}'
 ```
 
 ### test_animations()

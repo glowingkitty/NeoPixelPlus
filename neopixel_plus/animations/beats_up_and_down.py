@@ -1,6 +1,6 @@
 import time
 
-from neopixel_plus.helper import Color
+from neopixel_plus.helper import Color, RunningAnimation
 
 
 class BeatsUpAndDown:
@@ -118,6 +118,10 @@ class BeatsUpAndDown:
             self.led_strip.off()
 
             while True:
+                # check if animation should be stopped or not
+                if not RunningAnimation.check_animation_running():
+                    break
+
                 # update color if brightness different
                 if self.colors.brightness != 1 and self.colors.brightness_fixed:
                     self.colors.correct()

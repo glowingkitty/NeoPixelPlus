@@ -1,6 +1,6 @@
 import time
 
-from neopixel_plus.helper import Color
+from neopixel_plus.helper import Color, RunningAnimation
 
 
 class LightUp:
@@ -35,6 +35,10 @@ class LightUp:
             self.led_strip.off()
 
             while True:
+                # check if animation should be stopped or not
+                if not RunningAnimation.check_animation_running():
+                    break
+
                 # go over levels of brightness from 0 to 1 and
                 self.colors.brightness = 0
                 self.colors.correct()

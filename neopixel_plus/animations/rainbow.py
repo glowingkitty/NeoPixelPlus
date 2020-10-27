@@ -2,6 +2,7 @@ import math
 import time
 
 # TODO add Color() and simplify code (create rainbow once, then move it)
+from neopixel_plus.helper import RunningAnimation
 
 
 class RainbowAnimation:
@@ -79,6 +80,9 @@ class RainbowAnimation:
             loops = 0
             max_counter = self.get_max_counter()
             while True:
+                # check if animation should be stopped or not
+                if not RunningAnimation.check_animation_running():
+                    break
 
                 self.set_brightness(counter, max_counter)
 

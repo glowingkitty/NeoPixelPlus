@@ -4,6 +4,7 @@ import time
 from random import randint
 
 from neopixel_plus.animations import *
+from neopixel_plus.helper import RunningAnimation
 
 
 class NeoPixel:
@@ -171,14 +172,6 @@ class NeoPixel:
                 self.leds[i] = (255, 255, 255)
         self.write()
 
-    def color(self, r, g, b):
-        if self.debug:
-            print('NeoPixel().color(r={},g={},b={})'.format(r, g, b))
-        for i in range(self.strip_length):
-            i = self.get_led(i)
-            self.leds[i] = (r, g, b)
-        self.write()
-
     def test_animations(self):
         # run all the animations for testing
         print('Start testing animations...')
@@ -200,12 +193,36 @@ class NeoPixel:
             self.transition(loop_limit=3)
             self.transition(loop_limit=3, sections=[0])
 
+    def color(self,
+              rgb_color=None,
+              customization_json={},
+              stop_ongoing_animation=False
+              ):
+        if stop_ongoing_animation:
+            RunningAnimation.stop_ongoing_animation()
+
+        r = customization_json['rgb_color'][0] if customization_json and 'rgb_color' in customization_json else rgb_color[0]
+        g = customization_json['rgb_color'][1] if customization_json and 'rgb_color' in customization_json else rgb_color[1]
+        b = customization_json['rgb_color'][2] if customization_json and 'rgb_color' in customization_json else rgb_color[2]
+        if self.debug:
+            print('NeoPixel().color(r={},g={},b={})'.format(r, g, b))
+        for i in range(self.strip_length):
+            i = self.get_led(i)
+            self.leds[i] = (r, g, b)
+        self.write()
+
     def rainbow_animation(self,
                           loop_limit=None,
                           brightness=1,
                           duration_ms=1000,
                           pause_ms=None,
-                          customization_json={}):
+                          customization_json={},
+                          stop_ongoing_animation=False
+                          ):
+        if stop_ongoing_animation:
+            RunningAnimation.stop_ongoing_animation()
+            RunningAnimation.create_animation_running()
+
         RainbowAnimation(
             led_strip=self,
             loop_limit=customization_json['loop_limit'] if customization_json and 'loop_limit' in customization_json else loop_limit,
@@ -224,7 +241,13 @@ class NeoPixel:
               pause_ms=300,
               start='start',
               num_random_colors=5,
-              customization_json={}):
+              customization_json={},
+              stop_ongoing_animation=False
+              ):
+        if stop_ongoing_animation:
+            RunningAnimation.stop_ongoing_animation()
+            RunningAnimation.create_animation_running()
+
         BeatsUpAndDown(
             led_strip=self,
             rgb_colors=customization_json['rgb_colors'] if customization_json and 'rgb_colors' in customization_json else rgb_colors,
@@ -247,7 +270,13 @@ class NeoPixel:
                    pause_b_ms=300,
                    start='start',
                    num_random_colors=5,
-                   customization_json={}):
+                   customization_json={},
+                   stop_ongoing_animation=False
+                   ):
+        if stop_ongoing_animation:
+            RunningAnimation.stop_ongoing_animation()
+            RunningAnimation.create_animation_running()
+
         MovingDot(
             led_strip=self,
             rgb_colors=customization_json['rgb_colors'] if customization_json and 'rgb_colors' in customization_json else rgb_colors,
@@ -268,7 +297,13 @@ class NeoPixel:
                  pause_ms=200,
                  num_random_colors=5,
                  sections='all',
-                 customization_json={}):
+                 customization_json={},
+                 stop_ongoing_animation=False
+                 ):
+        if stop_ongoing_animation:
+            RunningAnimation.stop_ongoing_animation()
+            RunningAnimation.create_animation_running()
+
         LightUp(
             led_strip=self,
             rgb_colors=customization_json['rgb_colors'] if customization_json and 'rgb_colors' in customization_json else rgb_colors,
@@ -288,7 +323,13 @@ class NeoPixel:
                    pause_ms=200,
                    num_random_colors=5,
                    sections='all',
-                   customization_json={}):
+                   customization_json={},
+                   stop_ongoing_animation=False
+                   ):
+        if stop_ongoing_animation:
+            RunningAnimation.stop_ongoing_animation()
+            RunningAnimation.create_animation_running()
+
         Transition(
             led_strip=self,
             rgb_colors=customization_json['rgb_colors'] if customization_json and 'rgb_colors' in customization_json else rgb_colors,

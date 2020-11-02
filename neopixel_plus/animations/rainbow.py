@@ -11,8 +11,10 @@ class RainbowAnimation:
                  brightness=1,
                  loop_limit=None,
                  duration_ms=1000,
+                 stop_ongoing_animation=False,
                  pause_ms=None):
         self.led_strip = led_strip
+        self.stop_ongoing_animation = stop_ongoing_animation,
         self.brightness_max = brightness
         self.loop_limit = loop_limit
         self.duration_ms = duration_ms
@@ -81,7 +83,7 @@ class RainbowAnimation:
             max_counter = self.get_max_counter()
             while True:
                 # check if animation should be stopped or not
-                if not RunningAnimation.check_animation_running():
+                if self.stop_ongoing_animation == True and RunningAnimation.check_animation_running() == False:
                     break
 
                 self.set_brightness(counter, max_counter)

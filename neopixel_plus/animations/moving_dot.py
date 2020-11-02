@@ -13,8 +13,10 @@ class MovingDot:
                  start='start',
                  rgb_colors=None,
                  brightness=1,
+                 stop_ongoing_animation=False,
                  num_random_colors=5):
         self.led_strip = led_strip
+        self.stop_ongoing_animation = stop_ongoing_animation,
         self.loop_limit = loop_limit
         self.loops = 0
         self.duration_ms = duration_ms
@@ -96,7 +98,7 @@ class MovingDot:
 
             while True:
                 # check if animation should be stopped or not
-                if not RunningAnimation.check_animation_running():
+                if self.stop_ongoing_animation == True and RunningAnimation.check_animation_running() == False:
                     break
 
                 # make sure duration is correct

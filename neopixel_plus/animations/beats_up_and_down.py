@@ -14,9 +14,11 @@ class BeatsUpAndDown:
                  brightness=1,
                  brightness_fixed=False,
                  max_height=1,
-                 num_random_colors=5
+                 num_random_colors=5,
+                 stop_ongoing_animation=False,
                  ):
         self.led_strip = led_strip
+        self.stop_ongoing_animation = stop_ongoing_animation,
         self.loop_limit = loop_limit
         self.loops = 0
         self.duration_ms = duration_ms
@@ -119,7 +121,7 @@ class BeatsUpAndDown:
 
             while True:
                 # check if animation should be stopped or not
-                if not RunningAnimation.check_animation_running():
+                if self.stop_ongoing_animation == True and RunningAnimation.check_animation_running() == False:
                     break
 
                 # update color if brightness different

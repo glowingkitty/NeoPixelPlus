@@ -1,6 +1,9 @@
 import time
 
-from neopixel_plus.helper import Color, RunningAnimation
+try:
+    from neopixel_plus.helper import Color
+except ImportError:
+    from helper import Color
 
 
 class MovingDot:
@@ -13,10 +16,8 @@ class MovingDot:
                  start='start',
                  rgb_colors=None,
                  brightness=1,
-                 stop_ongoing_animation=False,
                  num_random_colors=5):
         self.led_strip = led_strip
-        self.stop_ongoing_animation = stop_ongoing_animation,
         self.loop_limit = loop_limit
         self.loops = 0
         self.duration_ms = duration_ms
@@ -97,10 +98,6 @@ class MovingDot:
             self.led_strip.off()
 
             while True:
-                # check if animation should be stopped or not
-                if self.stop_ongoing_animation == True and RunningAnimation.check_animation_running() == False:
-                    break
-
                 # make sure duration is correct
                 # create dot with tail
                 self.create_dot()

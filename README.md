@@ -154,6 +154,7 @@ Want to support the development and stay updated?
 
     5.9 [get_pin()](#get_pin)
 
+6. [Terminal commands](#terminal-commands)
 
 ## Installation
 Make sure Python 3 is installed. 
@@ -657,3 +658,11 @@ Run all the different LED animations from NeoPixel+.
 
 ### get_pin()
 Returns the class object for the GPIO pin (micropython's and adafruit's NeoPixel use different classes for that).
+
+## Terminal commands
+You can also start an animation by calling the neopixel_plus.py file directly via your terminal.
+
+Example:
+```
+python3 neopixel_plus.py -t <test> -d <target> -n <n> -a <animation>
+```

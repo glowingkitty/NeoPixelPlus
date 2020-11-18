@@ -147,6 +147,22 @@ class NeoPixel:
         for i in range(len(leds)):
             self.leds[i] = leds[i]
 
+    def fadeout(self):
+        # get current colors of leds and make them darker step by step
+        brightness = 0.9
+        while brightness >= 0:
+            for x in range(self.strip_length):
+                r = round(self.leds[x][0]*brightness)
+                g = round(self.leds[x][1]*brightness)
+                b = round(self.leds[x][2]*brightness)
+                self.leds[x] = [
+                    r if r <= 255 and r >= 0 else 255 if r > 255 else 0,
+                    g if g <= 255 and g >= 0 else 255 if g > 255 else 0,
+                    b if b <= 255 and b >= 0 else 255 if b > 255 else 0,
+                ]
+            brightness -= 0.1
+            self.write()
+
     def get_led(self, i, start=None):
         if self.debug:
             print('NeoPixel().get_led(i={},start={}'.format(i, start))
@@ -326,11 +342,12 @@ if __name__ == "__main__":
     target = None
     n = 60
     animation = 'rainbow_animation'
+    customization = {}
     try:
-        opts, args = getopt.getopt(sys.argv[1:], "ht:d:n:a:", [
-                                   "test=", "target=", "n=", "animation="])
+        opts, args = getopt.getopt(sys.argv[1:], "ht:d:n:a:c:", [
+                                   "test=", "target=", "n=", "animation=", "customization="])
     except getopt.GetoptError:
-        print('neopixel_plus.py -t <test> -d <target> -n <n> -a <animation>')
+        print('neopixel_plus.py -t <test> -d <target> -n <n> -a <animation> -c <customization>')
         sys.exit(2)
     for opt, arg in opts:
         if opt in ("-t", "--test"):
@@ -341,9 +358,12 @@ if __name__ == "__main__":
             n = int(arg)
         elif opt in ("-a", "--animation"):
             animation = arg
+        elif opt in ("-c", "--customization"):
+            customization = eval(arg)
 
     if target:
         test = False
 
     # get parameters and function call from shell commands
-    getattr(NeoPixel(test=test, target=target, n=n), animation)()
+    getattr(NeoPixel(test=test, target=target, n=n), animation)(
+        customization_json=customization)

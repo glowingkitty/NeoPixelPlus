@@ -76,6 +76,8 @@ class LightUp:
                     break
 
         except KeyboardInterrupt:
+            self.led_strip.fadeout()
+
             import sys
             print()
             sys.exit(0)

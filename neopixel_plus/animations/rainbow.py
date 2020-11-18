@@ -79,7 +79,10 @@ class RainbowAnimation:
             loops = 0
             max_counter = self.get_max_counter()
             while True:
-                self.set_brightness(counter, max_counter)
+                if loops < 10:
+                    self.brightness = 0.1+(loops*0.1)
+                else:
+                    self.set_brightness(counter, max_counter)
 
                 # turn LEDs black (off) for duration of pause
                 if counter == max_counter:
@@ -106,7 +109,10 @@ class RainbowAnimation:
                     self.led_strip.write()
 
                     counter += 1
+                    loops += 1
         except KeyboardInterrupt:
+            self.led_strip.fadeout()
+
             import sys
             print()
             sys.exit(0)
@@ -132,4 +138,7 @@ class RainbowAnimation:
         g = int(255.0 * g * brightness)
         b = int(255.0 * b * brightness)
 
-        return (r if r < 255 else 255, g if g < 255 else 255, b if b < 255 else 255)
+        r = r if r < 255 and r > 0 else 255 if r >= 255 else 0
+        g = g if g < 255 and g > 0 else 255 if g >= 255 else 0
+        b = b if b < 255 and b > 0 else 255 if b >= 255 else 0
+        return (r, g, b)

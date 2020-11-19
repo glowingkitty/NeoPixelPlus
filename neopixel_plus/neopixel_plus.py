@@ -161,7 +161,7 @@ class NeoPixel:
                     b if b <= 255 and b >= 0 else 255 if b > 255 else 0,
                 ]
             brightness -= 0.1
-            self.write()
+            self.write(0.001)
 
     def get_led(self, i, start=None):
         if self.debug:
@@ -214,17 +214,43 @@ class NeoPixel:
             self.transition(loop_limit=3, sections=[0])
 
     def color(self,
-              rgb_color=None,
+              rgb_color=[randint(0, 255), randint(0, 255), randint(0, 255)],
               customization_json={}
               ):
-        r = customization_json['rgb_color'][0] if customization_json and 'rgb_color' in customization_json else rgb_color[0]
-        g = customization_json['rgb_color'][1] if customization_json and 'rgb_color' in customization_json else rgb_color[1]
-        b = customization_json['rgb_color'][2] if customization_json and 'rgb_color' in customization_json else rgb_color[2]
+        try:
+            print('color:')
+            original_r = customization_json['rgb_color'][
+                0] if customization_json and 'rgb_color' in customization_json else rgb_color[0]
+            original_g = customization_json['rgb_color'][
+                1] if customization_json and 'rgb_color' in customization_json else rgb_color[1]
+            original_b = customization_json['rgb_color'][
+                2] if customization_json and 'rgb_color' in customization_json else rgb_color[2]
 
-        for i in range(self.strip_length):
-            i = self.get_led(i)
-            self.leds[i] = (r, g, b)
-        self.write()
+            brightness = 0.1
+            while brightness <= 1:
+                for i in range(self.strip_length):
+
+                    r = round(original_r*brightness)
+                    g = round(original_g*brightness)
+                    b = round(original_b*brightness)
+                    i = self.get_led(i)
+                    self.leds[i] = [
+                        r if r <= 255 and r >= 0 else 255 if r > 255 else 0,
+                        g if g <= 255 and g >= 0 else 255 if g > 255 else 0,
+                        b if b <= 255 and b >= 0 else 255 if b > 255 else 0,
+                    ]
+                self.write()
+                brightness += 0.1
+
+            while True:
+                # await keyboard interrupt
+                time.sleep(10)
+        except KeyboardInterrupt:
+            self.fadeout()
+
+            import sys
+            print()
+            sys.exit(0)
 
     def rainbow_animation(self,
                           loop_limit=None,

@@ -80,7 +80,7 @@ class RainbowAnimation:
             max_counter = self.get_max_counter()
             while True:
                 if loops < 10:
-                    self.brightness = 0.1+(loops*0.1)
+                    self.brightness = (0.1+(loops*0.1))*self.brightness_max
                 else:
                     self.set_brightness(counter, max_counter)
 

@@ -214,17 +214,17 @@ class NeoPixel:
             self.transition(loop_limit=3, sections=[0])
 
     def color(self,
-              rgb_color=[randint(0, 255), randint(0, 255), randint(0, 255)],
+              rgb_colors=[randint(0, 255), randint(0, 255), randint(0, 255)],
               customization_json={}
               ):
         try:
             print('color:')
-            original_r = customization_json['rgb_color'][
-                0] if customization_json and 'rgb_color' in customization_json else rgb_color[0]
-            original_g = customization_json['rgb_color'][
-                1] if customization_json and 'rgb_color' in customization_json else rgb_color[1]
-            original_b = customization_json['rgb_color'][
-                2] if customization_json and 'rgb_color' in customization_json else rgb_color[2]
+            original_r = customization_json['rgb_colors'][0][
+                0] if customization_json and 'rgb_colors' in customization_json else rgb_colors[0][0]
+            original_g = customization_json['rgb_colors'][0][
+                1] if customization_json and 'rgb_colors' in customization_json else rgb_colors[0][1]
+            original_b = customization_json['rgb_colors'][0][
+                2] if customization_json and 'rgb_colors' in customization_json else rgb_colors[0][2]
 
             brightness = 0.1
             while brightness <= 1:

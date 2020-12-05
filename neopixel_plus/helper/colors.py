@@ -7,7 +7,16 @@ class Color:
             num_random_colors)
         self.selected_num = 0
         self.selected_max = len(self.rgb_colors)-1
-        self.base_color = self.rgb_colors[self.selected_num]
+        # make sure self.rgb_colors is a list and self.rgb_colors[self.selected_num] is also a list
+        if type(self.rgb_colors) == list and type(self.rgb_colors[self.selected_num]) == list:
+            self.base_color = self.rgb_colors[self.selected_num]
+        else:
+            print(
+                'self.rgb_colors and self.rgb_colors[self.selected_num] must be lists. Currently:')
+            print('self.rgb_colors: {}'.format(self.rgb_colors))
+            print('self.rgb_colors[self.selected_num]: {}'.format(
+                self.rgb_colors[self.selected_num]))
+            raise
         self.brightness = brightness
         self.brightness_max = brightness
         self.brightness_fixed = brightness_fixed

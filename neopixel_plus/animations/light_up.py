@@ -46,7 +46,9 @@ class LightUp:
                     self.sections)
 
                 # light up
-                while self.colors.brightness != round(self.colors.brightness_max, 1):
+                while self.colors.brightness <= round(self.colors.brightness_max, 1):
+                    if self.colors.brightness > 1:
+                        self.colors.brightness = 1
                     for i in self.selected_leds:
                         self.led_strip.leds[i] = self.colors.selected
                     self.led_strip.write(s_after_wait=self.write_wait_time)

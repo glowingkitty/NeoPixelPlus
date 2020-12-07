@@ -45,26 +45,29 @@ class LightUp:
                 self.selected_leds = self.led_strip.get_led_selectors(
                     self.sections)
 
-                # light up
-                while self.colors.brightness <= round(self.colors.brightness_max, 1):
-                    if self.colors.brightness > 1:
-                        self.colors.brightness = 1
+                # light up in 10 steps
+                steps = 0
+                step_height = round(self.colors.brightness_max/10, 2)
+                while steps < 10:
                     for i in self.selected_leds:
                         self.led_strip.leds[i] = self.colors.selected
                     self.led_strip.write(s_after_wait=self.write_wait_time)
 
-                    self.colors.brightness = round(
-                        self.colors.brightness+0.1, 1)
+                    # update color
+                    self.colors.brightness += step_height
                     self.colors.correct()
+                    steps += 1
 
-                # light down
-                while self.colors.brightness != 0.0:
-                    self.colors.brightness = round(
-                        self.colors.brightness-0.1, 1)
-                    self.colors.correct()
+                steps = 0
+                while steps < 10:
                     for i in self.selected_leds:
                         self.led_strip.leds[i] = self.colors.selected
                     self.led_strip.write(s_after_wait=self.write_wait_time)
+
+                    # update color
+                    self.colors.brightness -= step_height
+                    self.colors.correct()
+                    steps += 1
 
                 # change to next color
                 self.colors.next()

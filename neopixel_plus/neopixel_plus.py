@@ -107,6 +107,12 @@ class NeoPixel:
                 return self.sections[randint(0, len(self.sections)-1)]
         else:
             selected_leds = []
+
+            # if "sections" is a list of strings, first convert them to counter numbers (0,1,2,3) instead of "Section 1","Section 2" etc.
+            if type(sections[0]) == str:
+                sections = [int(x.lower().replace(' ', '').split(
+                    'section')[-1])-1 for x in sections]
+
             for entry in sections:
                 selected_leds += self.sections[entry]
 
